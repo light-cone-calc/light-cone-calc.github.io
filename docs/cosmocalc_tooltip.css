@@ -1,0 +1,9 @@
+.hotspot {padding-bottom:1px; cursor:pointer}
+
+#tt {position:absolute; display:block; margin:0; padding:0}
+#tttop {display:block; height:5px; margin-left:5px; top right no-repeat; overflow:hidden; padding:0}
+#ttcont {display:block; padding:2px 12px 3px 7px; margin-left:5px; background:#666; color:#FFF; font-family : Verdana; font-size: 10pt;}
+#ttbot {display:block; height:5px; margin-left:5px; overflow:hidden; padding:0}
+
+td {font-family : Verdana; font-size: 10pt; white-space: nowrap;}
+th {font-family : Verdana; font-size: 10pt; text-align : center; white-space: nowrap;}

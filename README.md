@@ -1,2 +1,3 @@
 # lightcone7.github.io
-LightCone7 home page
+
+> LightCone7 development site.

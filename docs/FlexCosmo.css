@@ -1,0 +1,294 @@
+body 
+{ 
+  font-family: Verdana;
+  font-size: 10pt;
+}  
+
+#divPageTitle
+{
+  position: relative;
+  width: 750px;
+  padding: 5px;
+}
+
+#divTitleText
+{
+  font-size: 15pt;
+}
+
+.divInformation
+{        
+  padding: 10px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 740px;
+  width: 740px;    
+  display:none;
+  background: lightblue;       
+  margin-top: 5px;
+  margin-bottom: 10px;             
+} 
+
+.divOptionsHeading
+{        
+  margin-left: 5px;
+  margin-right: 5px;
+  border-bottom: 1px solid black; 
+  padding: 4px;
+  width: 100% - 10px;    
+} 
+
+.divOptions
+{        
+  padding: 10px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 740px;
+  width: 740px;    
+  display:none;
+  margin-top: 5px;
+  margin-bottom: 10px;             
+  background: lightgreen;
+} 
+   
+.divButtonFrame
+{
+padding: 5px;
+/*  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  padding-right: 4px; */
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 750px;
+  width: 750px;      
+  margin-top: 7px;
+  margin-bottom: 10px;
+  position: relative;
+  height: 26px;  
+}
+   
+.divCalcBox
+{
+  border: 1px solid black; 
+  display: inline-block;
+  border-radius: 3px;
+  background-color: gray;
+  /**right: 5px; 
+  top: 5px;
+  position:absolute;**/
+}
+
+.divButtonFloatRight
+{
+  right: 6px; 
+  top: 6px;
+  position:absolute;
+}
+
+ /* input table styles */
+
+#divInputs { margin-bottom: 10px; }
+
+#tableInputs { border-spacing: 0px; }
+#tableInputs th { border-bottom: 1px solid black; padding: 4px; }
+#tableInputs td { padding: 4px; border-bottom: 1px dashed #E2E2E2; }
+#tableInputs tr td:first-child + td + td + td{ padding-left: 10px; padding-right: 20px; }    
+
+#tableInputs tr td:first-child { text-align:right; }
+#tableInputs tr td:first-child + td + td + td + td { text-align:right; }    
+
+#tableInputs tr:last-child td { border-bottom: 1px solid black; }
+
+
+/*#tableInputs tfoot td { border-top: 1px solid black; border-bottom: none; }*/
+
+#tableChartOptions { border-spacing: 0px; }
+#tableChartOptions tr td:first-child { text-align:right; width: 150px; }
+#tableChartOptions td { padding: 4px; border-bottom: 1px dashed black; }
+#tableChartOptions tr:last-child td { border-bottom: none; }
+   
+/* column config styles */
+
+#divColumnConfig
+{
+  border-radius: 6px;
+  border: 1px solid silver;
+  padding:10px;
+  padding-right: 15px;
+  min-width: 750px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  position: relative; 
+}
+    
+#divConfigGroup1 .configBlock { background: orange; }
+#divConfigGroup2 .configBlock { background: lightblue; }    
+#divConfigGroup3 .configBlock { background: lightgreen;}      
+#divConfigGroup4 .configBlock { background: lightyellow; margin-bottom: 5px;} 
+ 
+.configBlock
+{ 
+  display: inline-block;
+  *display: inline;      
+  position: relative;      
+  border: 1px solid black;       
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+} 
+
+.clicker
+{      
+  border-left: 1px solid black;  
+  border-bottom: 1px solid black;  
+  right: 0px;
+  top: 0px;
+  position:absolute;
+  height: 20px;
+  width: 20px;        
+  background-color: silver;
+  background-position: 2px 2px;
+  background-repeat: no-repeat;
+}
+.clicker:hover
+{
+  background-color: lightblue;
+}
+.clickerOn
+{
+  background-image: url("images/accept.png");
+}
+
+.clickerOff
+{
+  background-image: url("images/cross.png");           
+}
+
+.divSelectPrimaryColumn
+{      
+/*  border-left: 1px solid black;  
+  border-bottom: 1px solid black;  */
+  right: 0px;
+  top: 21px;
+  position:absolute;
+  height: 20px;
+  width: 20px;        
+/*  background-color: yellow; */
+}
+
+
+.info
+{            
+  right: 2px;
+  bottom: 2px;
+  position:absolute;
+  height: 16px;
+  width: 16px;      
+  background: url("images/help.png") 0 0 no-repeat;           
+}
+
+
+.blanker
+{ 
+  top: 0px;
+  left: 0px;
+  position:absolute;
+  background:white;
+  filter:alpha(opacity=60);
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+  height: 100%;      
+  width: 100%;
+  display:none;
+} 
+
+.columnTitle
+{      
+  font-weight:bold;
+  font-family: Verdana; 
+  font-size: 12pt;
+  padding-left: 8px;
+  padding-right: 24px;
+  min-height: 30px;
+}
+.decimals
+{
+  font-family : Verdana; font-size: 7pt;
+  padding-left: 5px;      
+  padding-right: 24px;
+}
+
+#divConfigControls 
+{
+  right: 8px;
+  bottom: 8px;
+  position:absolute; 
+}
+
+#divConfigLock
+{
+  right: 8px;
+  top: 8px;
+  position:absolute; 
+}
+
+/* Output Selection */
+#divOutputSelection
+{
+  border-radius: 6px;
+  border: 1px solid silver;
+  padding:10px;
+  width: 740px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  position: relative; 
+  background-color: #FFFFC0
+}
+
+/* Version Selection */
+#divVersionSelection
+{
+  border-radius: 6px;
+  border: 1px solid silver;
+  padding:10px;
+  width: 740px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  position: relative; 
+  background-color: #FFFFC0
+}
+
+/* Calc Infobar */
+#divCalculationInfoBar
+{
+  border-radius: 6px;
+  border: 1px solid silver;
+  padding:10px;
+  width: 740px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  position: relative; 
+  background-color: #FFFFC0
+}
+
+/* output formatting */
+.divLatexOutputFrame 
+{
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 750px;
+  width: 750px;      
+  margin-top: 7px;
+  margin-bottom: 10px;
+  background-color: lightyellow;
+}       
+
+#divResultTable { margin-top:10px; margin-bottom: 5px; }
+#divResultTable th { text-align:center; padding-left:7px; padding-right:7px; } 
+#divResultTable td { text-align:right; padding-left:10px; padding-right:4px; } 
