@@ -1,0 +1,909 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>LightCone7 (local version)</title>
+
+  <script src="../../light-cone-calc/dist/light-cone-calc.min.js"></script> 
+
+  <script type="text/javascript" language="javascript" src="chart_rgbcolor.js"></script> 
+  <script type="text/javascript" language="javascript" src="chart_canvg.js"></script>
+  <script type="text/javascript" language="javascript" src="chart_toImg.js"></script>
+<!--  <script type="text/javascript" src="https://www.google.com/jsapi"></script>  -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+  <script type="text/javascript" language="javascript" src="Util.js"></script>
+  <script type="text/javascript" language="javascript" src="Calculation.js"></script>      
+  <script type="text/javascript" language="javascript" src="OutputHTML.js"></script> 
+  <script type="text/javascript" language="javascript" src="OutputChart.js"></script> 
+  <script type="text/javascript" language="javascript" src="OutputTex.js"></script> 
+  <script type="text/javascript" language="javascript" src="comsocalc_tooltip.js"></script>
+   
+  <link rel="stylesheet" type="text/css" href="FlexCosmo.css">
+  <link rel="stylesheet" type="text/css" href="cosmocalc_tooltip.css">
+
+  <script type="text/javascript" language="javascript" >
+
+ // google.load("visualization", "1", {packages:["corechart"]});
+  google.charts.load('current', {packages: ['corechart']});
+
+var programTitle = "[programTitle]";
+
+var OutputScaling = "GigaLightyear";
+
+function StartUp()
+{  
+  SetTitles();
+  CreateColumnSetupBlocks();
+  
+  InputChanged();
+        
+  CalculateProcess();      
+}
+
+function SetTitles()
+{
+   programTitle = document.title;
+   document.getElementById("divTitleText").innerHTML = programTitle;
+}
+
+function ResetInput()
+{
+  window.document.frmCalc.reset();
+  InputChanged();
+}
+
+function ResetChartOptions()
+{
+  switch(OutputScaling)
+  {
+    case "GigaLightyear":
+          ResetChartOptions7Gly();
+      break;  
+    case "Gigaparsec":
+         ResetChartOptions7Gpc();
+      break;  
+    case "Normalized":
+         ResetChartOptions7z();
+      break;  
+    case "Zeit":
+         ResetChartOptions7z();
+      break; 
+   } 
+}
+function ResetChartOptions7Gly()
+{
+  document.getElementById('ChartVertMinValue').value = "-1.0";
+  document.getElementById('ChartVertMaxValue').value = "30.0";
+  document.getElementById('ChartHorMinValue').value = "0.0";
+  document.getElementById('ChartHorMaxValue').value = "30.0";
+  document.getElementById('ChartHeightValue').value = "400";
+  document.getElementById('ChartWidthValue').value = "650";
+  document.getElementById('ChartVertCountValue').value = "11";
+  document.getElementById('ChartHorCountValue').value = "11";
+}
+function ResetChartOptions7Gpc()
+{
+  document.getElementById('ChartVertMinValue').value = "-1.0";
+  document.getElementById('ChartVertMaxValue').value = "10.0";
+  document.getElementById('ChartHorMinValue').value = "0.0";
+  document.getElementById('ChartHorMaxValue').value = "30.0";
+  document.getElementById('ChartHeightValue').value = "400";
+  document.getElementById('ChartWidthValue').value = "650";
+  document.getElementById('ChartVertCountValue').value = "11";
+  document.getElementById('ChartHorCountValue').value = "11";
+}
+function ResetChartOptions7z()
+{
+  document.getElementById('ChartVertMinValue').value = "-1.0";
+  document.getElementById('ChartVertMaxValue').value = "2.0";
+  document.getElementById('ChartHorMinValue').value = "0.0";
+  document.getElementById('ChartHorMaxValue').value = "2.0";
+  document.getElementById('ChartHeightValue').value = "400";
+  document.getElementById('ChartWidthValue').value = "650";
+  document.getElementById('ChartVertCountValue').value = "11";
+  document.getElementById('ChartHorCountValue').value = "11";
+}
+function ResetDecimals()
+{
+  window.document.frmConfig.reset();
+}
+
+
+function SetDefaultWMAP()
+{
+  window.document.frmCalc.H_0.value = 69.8;
+  window.document.frmCalc.OmegaL.value = 0.72;
+  window.document.frmCalc.s_eq.value = 3300;
+ window.document.frmCalc.Omega.value = 1.0;
+  InputChanged();
+}
+
+function SetDefaultPLANCK()
+{
+  window.document.frmCalc.H_0.value = 67.74;
+  window.document.frmCalc.OmegaL.value = 0.691;
+  window.document.frmCalc.s_eq.value = 3370;
+  window.document.frmCalc.Omega.value = 1.0;
+  InputChanged();
+}
+
+function SetDefaultChartSample()
+{
+  window.document.frmCalc.steps.value = 100;
+  InputChanged();
+}
+
+       
+function CreateColumnSetupBlocks()
+{
+   LastIndex = 0; // <-- leave this alone;
+//   True allows as horizontal axis
+   var configHtml = GenerateConfigBlockHtml('Tnow','Cosmic Time','Cosmic time is the hypothetical clock of the expansion model,starting to tick from zero when the present expansion phase began, some 13.8 Gyr ago. It may not be the beginning of time, just the start of the model-clock.',2,true);
+   configHtml += GenerateConfigBlockHtml('z','Redshift (z)','The redshift tells us the fractional portion that the emitted wavelength of the light we receive today has been increased.',2,true);
+   configHtml += GenerateConfigBlockHtml('a','Scale factor (a)','The scale factor a = 1/(z+1). It tells us the scale of cosmic distances in the past or future, as compared to today.',2,true);
+   configHtml += GenerateConfigBlockHtml('s','S=z+1','Stretch (S=z+1) is the factor by which proper distances (or wavelengths) of the past have to be be multiplied to get present proper distances (or wavelengths).',2,true);
+        
+   document.getElementById("divConfigGroup1").innerHTML = configHtml;
+
+   var configHtml = GenerateConfigBlockHtml('Y','Hubble radius (R)','The Hubble radius is the inverse of the Hubble constant, representing the distance where the recession rate is one light-year per year, i.e. c.',2,false);
+   configHtml += GenerateConfigBlockHtml('Dnow','D<sub>now</sub>','The proper distance of source, which is like measuring cosmic distance on a hypothetical frozen view (i.e. expansion stopped), by means of radar, measuring rods, or similar.',2,false);
+   configHtml += GenerateConfigBlockHtml('Dthen','D<sub>then</sub>','The proper distance of a source at the time of emission of the light that we observe now. It is a point on our past (or future) light cone.',2,false);
+   configHtml += GenerateConfigBlockHtml('Dhor','D<sub>horizon</sub>','The cosmic event horizon is the projected largest proper distance (at time of emission) between an emitter and receiver that light can ever bridge, given the specific expansion model.',2,false);
+   configHtml += GenerateConfigBlockHtml('Dpar','D<sub>particle</sub>','The particle horizon is the proper radius of the observable universe at the time of the emission of the signal that is observed at redshift z.',2,false);
+
+   document.getElementById("divConfigGroup2").innerHTML = configHtml;      
+   
+   var configHtml = GenerateConfigBlockHtml('XDpar','V<sub>gen</sub>','The recession rate history of a generic galaxy at present proper distance equal to the Hubble Radius, R<sub>0</sub>. The units are relative to the speed of light (c).',2,false);
+   configHtml += GenerateConfigBlockHtml('Vnow','V<sub>rec(now)</sub>','The present recession rate of a galaxy at redshift z. The units are relative to the speed of light (c).',2,false);       
+   configHtml += GenerateConfigBlockHtml('Vthen','V<sub>rec(then)</sub>','The original recession rate of a galaxy at redshift z. The units are relative to the speed of light (c).',2,false);
+   configHtml += GenerateConfigBlockHtml('H_t','H(z)','The Hubble value as a function of redshift, as it changes with expansion.',2,false);
+   configHtml += GenerateConfigBlockHtml('TemperatureT','Temperature','The cosmic background temperature as it changes with expansion.',2,false);
+   
+   document.getElementById("divConfigGroup3").innerHTML = configHtml;
+   
+   var configHtml = GenerateConfigBlockHtml('rhocrit','Energy density','Cosmic energy density (all forms) over the z-range. Set the input-Omega to 1.0, to get rho_critical.',2,false);
+   configHtml +=  GenerateConfigBlockHtml('OmegaMatterT','OmegaMatter','The matter energy density as a fraction of the total critical energy density (the latter required for a spatially flat universe).',2,false);
+   configHtml += GenerateConfigBlockHtml('OmegaLambdaT','OmegaLambda','The energy density represented by the cosmological constant (Lambda), as a fraction of the total critical energy density (the latter required for a spatially flat universe).',2,false);
+   configHtml += GenerateConfigBlockHtml('OmegaRadiationT','OmegaRadiation','The radiation energy density as a fraction of the total critical energy density (the latter required for a spatially flat universe).',2,false);
+   configHtml += GenerateConfigBlockHtml('OmegaTotalT','OmegaTotal','The total energy density parameter. Its evolution is interesting in cases where Omega >< 1 at present - check it out.',2,false);
+   
+   document.getElementById("divConfigGroup4").innerHTML = configHtml;
+   
+   document.getElementById("chkSelectPrimanyColumn1").checked = true;
+  
+   SelectBasicColumns();              
+}
+      
+function SelectBasicColumns()
+{    
+  DisableAll();
+// here you toggle the columns you want for Basic.
+//  ToggleConfigBlockByParameterName('s');
+//  ToggleConfigBlockByParameterName('a');
+  ToggleConfigBlockByParameterName('z');
+  ToggleConfigBlockByParameterName('Tnow');
+  ToggleConfigBlockByParameterName('Y');
+  ToggleConfigBlockByParameterName('Dnow');
+//  ToggleConfigBlockByParameterName('Dthen');
+//  ToggleConfigBlockByParameterName('Dhor')
+//  ToggleConfigBlockByParameterName('Dpar');
+  ToggleConfigBlockByParameterName('H_t');
+//  ToggleConfigBlockByParameterName('XDpar');
+//  ToggleConfigBlockByParameterName('Vnow');
+//  ToggleConfigBlockByParameterName('Vthen');
+  ToggleConfigBlockByParameterName('TemperatureT');
+//  ToggleConfigBlockByParameterName('rhocrit');
+//  ToggleConfigBlockByParameterName('OmegaMatterT');
+//  ToggleConfigBlockByParameterName('OmegaLambdaT');
+//  ToggleConfigBlockByParameterName('OmegaRadiationT');
+//  ToggleConfigBlockByParameterName('OmegaTotalT');
+
+}
+
+
+function HideColumnSetupOnCalculate()
+{
+  if (window.chkKeepConfigOpen.checked)
+    return;
+         
+  var state = document.getElementById('divColumnConfig').style.display;
+  if (state == "inline-block")
+  {
+    document.getElementById('divColumnConfig').style.display = "none";
+    document.getElementById('cmdToggleColumnConfig').value = "Open Column Definition and Selection";
+  }
+}
+
+function InputChanged()
+{
+
+  if (IsInputsValid())
+  {
+    UpdateConversions();
+  }
+  else
+  {
+    ClearConversions();
+  }
+  
+  document.getElementById("divOmegaLValue").innerHTML = window.document.frmCalc.OmegaL.value;
+  
+  document.getElementById('divCalculationInfoBar').innerHTML = "Some inputs have changed; press 'Calculate' button to update outputs." 
+}
+
+function IsInputsValid()  
+{
+  var errorColor = 'red';
+  var okColor = 'black';
+
+  var isBadInput = 0;
+
+  var H_0 = parseFloat(window.document.frmCalc.H_0.value);
+  var OmegaL = parseFloat(window.document.frmCalc.OmegaL.value);
+  var s_eq = parseFloat(window.document.frmCalc.s_eq.value);
+  var Omega = parseFloat(window.document.frmCalc.Omega.value);
+  var z_upper = parseFloat(window.document.frmCalc.z_upper.value);
+  var z_lower = parseFloat(window.document.frmCalc.z_lower.value);
+  var steps = parseFloat(window.document.frmCalc.steps.value);
+  
+  var Yinf = H_0 * H_0 / OmegaL / OmegaL;
+  if (Yinf < 0.00001) 
+  { 
+     Yinf = 0.00001;
+  }
+
+  
+  // checking H_0
+  if (H_0 < 10 || H_0 > 100 || isNaN(H_0))
+  {
+    document.getElementById("divH_0Feedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divH_0Feedback").style.color = okColor;      
+  }
+
+  // OmegaLCheck        
+  if (OmegaL <= 0 || OmegaL > 1.0 || isNaN(OmegaL)) 
+  {
+    document.getElementById("divOmegaLFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }       
+  else
+  {
+    document.getElementById("divOmegaLFeedback").style.color = okColor;      
+  }
+       
+  // s_eqCheck
+  if (s_eq < 100 || s_eq > 1000000 || isNaN(s_eq))
+  {
+    document.getElementById("divs_eqFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divs_eqFeedback").style.color = okColor; 
+  }
+                  
+  // OmegaCheck
+  if (Omega <= OmegaL || Omega > 1.5 || isNaN(Omega))
+  {
+    document.getElementById("divOmegaFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divOmegaFeedback").style.color = okColor; 
+  }      
+     
+  // z_upperCheck
+  if (z_upper < -0.99 || z_upper > 20000 || isNaN(z_upper))
+  {
+    document.getElementById("divz_upperFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divz_upperFeedback").style.color = okColor; 
+  }
+
+  // z_lowerCheck
+  if (z_lower < -0.99 || z_lower >= z_upper || isNaN(z_lower) ) 
+  {
+    document.getElementById("divz_lowerFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divz_lowerFeedback").style.color = okColor; 
+  }
+
+  // stepsCheck   
+  if (steps < -100 || steps > 100 || isNaN(steps)) 
+  {
+    document.getElementById("divstepsFeedback").style.color = errorColor;      
+    isBadInput = 1;
+  }
+  else if (steps > 0 && steps < 1 || isNaN(steps))
+  {
+    document.getElementById("divstepsFeedback").style.color = errorColor;         
+    isBadInput = 1;
+  }
+  else
+  {
+    document.getElementById("divstepsFeedback").style.color = okColor;   
+  }
+
+  if (isBadInput)
+    return 0;
+  else
+    return 1;
+}
+
+function UpdateConversions()
+{
+  var input = GetInput();
+
+  var Ynow = input.Ynow;
+  var Yinf = input.Yinf;
+  var s_eq = input.s_eq;     
+  var Omega = input.Omega;     
+  var s_upper = input.z_upper+1;
+  var s_lower = input.z_lower+1;
+  var steps = input.steps;
+
+   // the extra output, conversion values..............
+
+  var OmegaM =  (Omega-Ynow * Ynow / Yinf / Yinf) * s_eq / (1+s_eq);
+  var s_steps = steps   
+  document.getElementById("divYnow").innerHTML= Ynow.toFixed(3);
+  document.getElementById("divYinf").innerHTML= Yinf.toFixed(3); 
+  document.getElementById("divOmegaM").innerHTML= OmegaM.toFixed(4); 
+
+  // tage
+  var tage = CalculateTage(input);      
+  document.getElementById('divTage').innerHTML = tage.toFixed(3);      
+}
+
+function ClearConversions()
+{
+  document.getElementById("divYnow").innerHTML= "-";
+  document.getElementById("divYinf").innerHTML= "-";
+  document.getElementById("divOmegaM").innerHTML= "-";
+  document.getElementById("divTage").innerHTML= "-";
+}
+
+
+function CalculateProcess()
+{
+
+  if(document.getElementById('chkOutputChart').checked) 
+     window.document.frmCalc.steps.value = 100;
+  
+  var columnDisplaySettingsList = GetColumnDisplaySettings();
+  
+  var columnCount = GetIncludeCount(columnDisplaySettingsList);
+  if (columnCount < 1)
+  {
+    document.getElementById('divResultTable').innerHTML = "";
+    document.getElementById('divCalculationInfoBar').innerHTML = "No columns selected.";
+    return;
+  }
+ 
+  if (!IsInputsValid())
+  {
+    document.getElementById('divResultTable').innerHTML = "";
+    document.getElementById('divCalculationInfoBar').innerHTML = "Invalid input, cannot calculate. (Refer to red value in range column.)";
+    return;
+  }
+          
+  HideColumnSetupOnCalculate();
+  
+  // Set Version variable===============================================
+  var LastOutputScaling = OutputScaling;
+  
+  if(document.getElementById('chkVersionGigaLightyear').checked)      
+    OutputScaling = "GigaLightyear";   
+  if(document.getElementById('chkVersionGigaparsec').checked)      
+    OutputScaling = "Gigaparsec"; 
+  if(document.getElementById('chkVersionNormalized').checked)      
+    OutputScaling = "Normalized"; 
+//  if(document.getElementById('chkVersionZeit').checked) 
+//    OutputScaling = "Zeit"; 
+
+  switch(OutputScaling)
+  {
+    case "GigaLightyear":
+      if(OutputScaling != LastOutputScaling)
+          ResetChartOptions7Gly();
+      break;  
+    case "Gigaparsec":
+      if(OutputScaling != LastOutputScaling)
+         ResetChartOptions7Gpc();
+      break;  
+    case "Normalized":
+      if(OutputScaling != LastOutputScaling)
+         ResetChartOptions7z();
+      break;  
+    case "Zeit":
+      if(OutputScaling != LastOutputScaling)
+         ResetChartOptions7z();
+      break; 
+   } 
+ 
+  var ChartVertMin = parseFloat(document.getElementById('ChartVertMinValue').value);
+  var ChartVertMax = parseFloat(document.getElementById('ChartVertMaxValue').value);
+  var ChartHorMin = parseFloat(document.getElementById('ChartHorMinValue').value);
+  var ChartHorMax = parseFloat(document.getElementById('ChartHorMaxValue').value);
+  var ChartHeight = parseFloat(document.getElementById('ChartHeightValue').value);
+  var ChartWidth = parseFloat(document.getElementById('ChartWidthValue').value);
+  var ChartVertCount = parseFloat(document.getElementById('ChartVertCountValue').value);
+  var ChartHorCount = parseFloat(document.getElementById('ChartHorCountValue').value);
+
+  // *******************************************************************
+  var input = GetInput();
+
+  var resultList = Calculate(input);
+  
+//  CalculateExtraColumns(resultList,input);
+
+  ScaleResults(resultList,input,OutputScaling);
+  
+  var insertHeadings = true; 
+  
+  var outputFormat = "Standard";
+ 
+  if(document.getElementById('chkOutputStandardInput').checked) 
+    outputFormat = "Office"; 
+  if(document.getElementById('chkOutputWiki').checked) 
+    outputFormat = "Wiki"; 
+  if(document.getElementById('chkOutputLaTex').checked) 
+    outputFormat = "LaTex"; 
+  if(document.getElementById('chkOutputLaTexSmall').checked) 
+    outputFormat = "LaTexSmall"; 
+  if(document.getElementById('chkOutputChart').checked) 
+    outputFormat = "Chart"; 
+    
+  var outputString = "";
+
+  switch(outputFormat)
+  {
+    case "Standard":
+      outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings,OutputScaling);     
+      break;  
+    case "Office":
+      outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings,OutputScaling);     
+      break;  
+    case "LaTex":
+      var textSize = "small";
+      outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
+      break;  
+    case "LaTexSmall":
+      var textSize = "scriptsize";
+      outputString = "<div id='divLaTexOutputFrame' class='divLaTexOutputFrame'>";
+      outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
+      outputString += "</div>";
+      break;  
+    case "Wiki":
+      outputString = "[[html]]";
+      outputString += GetWikiResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
+      outputString += "[[/html]]";   
+      break;  
+    case "Chart":
+    
+      var data = BuildGoogleDataTable(resultList, columnDisplaySettingsList, OutputScaling);
+      
+      var primaryIndex = FindPrimaryColumnIndex(columnDisplaySettingsList);
+
+      var primayColumnName = columnDisplaySettingsList[primaryIndex].longName;
+      
+      var horAxisLabel = primayColumnName;
+
+      if (primayColumnName == "Cosmic Time")
+      {
+        switch(OutputScaling)
+          { 
+            case "GigaLightyear":
+                 horAxisLabel += " (Gyr)";
+              break;  
+            case "Gigaparsec":
+                 horAxisLabel += " (Gyr)";
+              break;  
+            case "Normalized":
+                 horAxisLabel += " (T/Tnow)";
+              break;  
+            case "Zeit":
+                 horAxisLabel += " (Zeit)";
+              break;
+          } 
+      } 
+      
+      var options = {
+        title: 'LightCone7 Chart', titleTextStyle:{fontSize: 14}, 
+        hAxis: 
+        {
+          title: horAxisLabel, titleTextStyle: {fontSize: 14}, 
+          gridlines: {count: ChartHorCount}, 
+          viewWindowMode:'explicit',
+          viewWindow: {max: ChartHorMax, min: ChartHorMin}
+        },
+        vAxis: 
+        {
+          title: 'Selected Column graphs', titleTextStyle: {fontSize: 14},
+          gridlines: {count: ChartVertCount}, 
+          viewWindowMode:'explicit',
+          viewWindow: {max: ChartVertMax, min: ChartVertMin}
+        }, 
+        height: ChartHeight,
+        width: ChartWidth,
+      };
+      break;  
+  }
+  
+  if (outputFormat == "Chart")
+  { 
+  
+   
+  
+    var chart = new google.visualization.LineChart(document.getElementById('divResultTable'));                            
+    chart.draw(data, options);
+    var divResultTable = document.getElementById('divResultTable'); 
+    toImg(divResultTable,divResultTable);
+  }
+  else
+  {
+    document.getElementById('divResultTable').innerHTML = outputString;
+  }
+
+  ClearSelection();
+  if (outputFormat == "Office")
+    SelectContainerContent('divResultTable');
+  if (outputFormat == "LaTex")
+    SelectContainerContent('divResultTable');
+  if (outputFormat == "LaTexSmall")
+    SelectContainerContent('divResultTable');
+  if (outputFormat == "Wiki")
+    SelectContainerContent('divResultTable');
+
+  var displayString = "Outputs updated: " + GetCurrentDateTimeString() ;
+  document.getElementById('divCalculationInfoBar').innerHTML = displayString; 
+  
+}
+
+function GetInput()
+{    
+  // get inputs
+  var input = CalcInput();
+  
+  input.Omega = parseFloat(window.document.frmCalc.Omega.value); 
+  // ***********************************************************
+ 
+  
+  var H_0 = parseFloat(window.document.frmCalc.H_0.value);
+  var OmegaL = parseFloat(window.document.frmCalc.OmegaL.value);
+  var z_upper = parseFloat(window.document.frmCalc.z_upper.value);
+  var z_lower = parseFloat(window.document.frmCalc.z_lower.value);
+  var steps = parseFloat(window.document.frmCalc.steps.value);
+  
+  input.s_eq = parseFloat(window.document.frmCalc.s_eq.value);
+  input.Ynow = 978/H_0;
+  input.Yinf = input.Ynow / Math.sqrt(OmegaL);
+  input.s_upper = z_upper + 1;
+  input.s_lower = z_lower + 1;
+  input.s_step = steps;
+  
+  input.S1Included = 0;
+
+  if (window.document.frmCalc.chkExponential.checked)
+    input.exponential = 0;
+  else
+    input.exponential = 1;
+    
+  return input;
+}
+    
+          
+  </script>
+</head>
+
+<body onload="StartUp()">
+
+  <!-- page heading -->
+  <div id="divPageTitle">
+    <div id="divTitleText">[LightCone7 loading]</div>
+    <div class="divButtonFloatRight">
+      <input type=button id="cmdToggleIntro" value="Show Introduction" onClick="ToggleIntro()" style="width: 200px;">
+    </div>
+  </div>
+
+  <!-- introdunction -->
+  <div id="divIntro" class="divInformation" style="display:none;">    
+Welcome to LightCone7, a flexible tabular/charting cosmological calculator for the history and the future of expansion of the universe. Lightcone is based on the standard LCDM cosmic model. You specify the range and number of steps of a table and it gives you times, distances and a host of optional values, characterizing the cosmic expansion history and/or future in that range. The calculator has two input data-sets to choose from, but the values can be adjusted as the user requires. 
+    <br>
+    <br>    
+If you adjust the cosmological values by any appreciable amount, you will be calculating for a different universe, not necessarily ours. It is best to leave them at one of the two default (Planck or WMAP) values for now, otherwise you may get results that are difficult to understand. You may want to play around with various redshift (z) ranges for your output table, though. 
+    <br>
+    <br>    
+ Further, the user can select various sets of output columns to tabularize/chart over ranges of redshift values. For more information, hover over the ? circles (tooltips) on the calculator. There is also a short user guide available at <a href="http://cosmocalc.wikidot.com/">this Wiki</a>.
+    <br>
+    <br>
+
+  </div>
+  
+  <form name="frmCalc" id="frmCalc">
+
+  <!-- top button bar -->  
+  <div class="divButtonFrame">
+    <div class="divCalcBox">
+      <input type=button value="Calculate" onClick="CalculateProcess()">    
+    </div>
+      <input type=button id="cmdResetInput" value="Reset Input" onClick="ResetInput()"> 
+    <div class="divButtonFloatRight">
+      <input type=button id="cmdDefaultWMAP" value="WMAP Data (2013)" onClick="SetDefaultWMAP()"> 
+
+      <input type=button id="cmdDefaultPLANCK" value="PLANCK Data (2015)" onClick="SetDefaultPLANCK()"> 
+      
+    </div>
+  </div>
+  
+  <!-- ***************************************************************** -->  
+  <!-- start of inputs table -->  
+  <div id="divInputs">
+     
+    <table id="tableInputs">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Input</th>          
+          <th></th> <!-- tooltip column -->
+          <th>Range</th>
+          <th>Conversions</th>
+          <th></th>
+          <th></th> <!-- tooltip column -->
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr> <!-- H_0 -->
+          <td>Hubble constant (km s<sup>-1</sup> Mpc<sup>-1</sup>)</td>
+          <td><input name="H_0" size=8 value="67.74" onfocus="this.select()" onblur="InputChanged()"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('H<sub>0</sub>, the present rate of expansion, expressed as a recession rate (km/s) per unit comoving distance (Mpc).');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divH_0Feedback">10 to 100</div></td>           
+          <td>Present Hubble radius, R<sub>H</sub> (Gly)</td>
+          <td><div id="divYnow">[wait]</div></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('R<sub>H</sub> is the inverse of the Hubble constant H<sub>0</sub>, in units where c=1.  It is the distance that light can travel in one Hubble time. Hubble time is numerically the same as R<sub>H</sub>');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>          
+        </tr>
+        
+        <tr> <!-- OmegaL -->
+          <td>Lambda density parameter, &#937;<sub>L</sub></td>
+          <td><input name="OmegaL" size=8 value="0.691" onfocus="this.select()" onblur="InputChanged()"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('The energy density represented by the comological constant, as a fraction of the present critical density.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          
+          <td><div class="divFeedback" id="divOmegaLFeedback"> >0 to 1.00 </div></td>
+          
+          <td>Future Hubble radius, R<sub>&infin;</sub> (Gly)</td>
+          <td><div id="divYinf">[wait]</div></td>          
+          <td><span class="hotspot" onmouseover="tooltip.show('When expansion is accelerating and matter density is diluted by the expansion, the Hubble radius gradually increases to this maximum value (R<sub>&infin;</sub>), which is determined by H<sub>0</sub> and &#937;<sub>L</sub>.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+        </tr>
+
+        <tr> <!-- z_eq -->
+          <td>Radiation, matter equal, z<sub>eq</sub></td>
+          <td><input name="s_eq" size=8 value="3370" onfocus="this.select()" onblur="InputChanged()"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('During initial expansion (high z), radiation energy density was much larger than matter energy density, but it also decreased more rapidly. At redshift z<sub>eq</sub> they were equal and a crossover occured. At much lower z, the influence of radiation is negligible.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divs_eqFeedback"> 100 to 999999</div></td>
+
+          <td>Matter density parameter, &#937;<sub>m</sub></td>
+          <td><div id="divOmegaM">[wait]</div></td>          
+          <td><span class="hotspot" onmouseover="tooltip.show('Matter and radiation densities are calculated from &#937, Lambda and z<sub>eq</sub. Hence, it does not need a separate input.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+        </tr>
+
+        <tr>
+          <td>Total density parameter, &#937;</td>
+          <td><input name="Omega" size=8 value="1.0" onfocus="this.select()" onblur="InputChanged()"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('&#937;=1 represents a flat spatial geometry. When &#937;>1, it is a positively curved geometry and When &#937;<1, a negatively curved geometry. Presently, &#937; is observed to very close to 1.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divOmegaFeedback"> ><div id="divOmegaLValue" style="display: inline;" > [wait]</div> to 1.5</div></td>
+          <td>Present Time (Gyr)</td>
+          <td><div id="divTage"></div></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('This is the age of the universe, i.e. the time since the start of the present expansion era (the Big Bang). It is thought to follow immediately after the Inflation era, which is not covered by this calculator.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+        </tr>
+
+        <tr> <!-- z_upper -->
+          <td>Upper row reshift, z<sub>upper</sub></td>
+          <td><input name="z_upper" size=8 value="1090" onfocus="this.select()" onblur="InputChanged()"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('The maximum redshift for this run, where z=1090 represents a stage when the cosmic scale was one 1091<sup>th</sup> of its present value, when the cosmic microwave background radiation was released (the universe has cooled enough to be transparent).');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divz_upperFeedback"> > z<sub>lower</sub> to 20000</div></td>          
+		  <td></td>
+          <td></td>          
+          <td></td>
+		</tr>
+
+        <tr> <!-- z_lower -->
+          <td>Lower row redshift, z<sub>lower</sub></td>
+          <td><input name="z_lower" size=8 value="-0.99" onfocus="this.select()" onblur="InputChanged()"></td>          
+          <td><span class="hotspot" onmouseover="tooltip.show('The minimum redshift for this run, where z=0 represents today. z=1 represents the stage when cosmic scale was half of its present value. A negative z indicates the future.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divz_lowerFeedback"> -0.99 to < z<sub>upper</sub></div></td>
+		  <td></td>
+          <td></td>          
+          <td></td>		  
+        </tr>
+        <tr>
+          <td>Number of steps displayed</td>
+          <td><input name="steps" size=8 value="10" onfocus="this.select()" onblur="InputChanged()"></td>          
+          <td><span class="hotspot" onmouseover="tooltip.show('Number of exponentially spaced steps displayed between z_upper and z_lower; steps = 0 results in a single row output (only z=z_upper). For linear steps, check the box far right. Negative steps divides z_upper by that number (exponential) or subtracts that number (linear).');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td><div class="divFeedback" id="divstepsFeedback"> -100 to 100</div></td>
+          <td><label for="chkExponential">Click box for linear steps</label></td>
+          <td><input type="checkbox" id="chkExponential"></td>
+          <td><span class="hotspot" onmouseover="tooltip.show('The default z-steps are exponentially spaced; tick this box to get linearly spaced steps.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+          <td></td>
+        </tr>
+       
+        <!-- this is an example input row code block, incase you want to add more inputs copy from <tr> till </tr>, 
+             remove the [ ] with text and replace with the relavent code, leave the <td></td> empty if not needed, but do not remove them.
+        <tr>
+          <td>[parameter text]</td>
+          <td>[input box]</td>
+          <td>[tooltip 1 span]</td>
+          <td>[feedback div]</td>
+          <td>[conversion text]</td>
+          <td>[conversion value div]</td>
+          <td>[tooltip 2 span]</td>
+        </tr>
+        -->        
+     
+      </tbody>
+            
+    </table>      
+  </div> <!-- end of divInputs -->
+  
+  </form> <!-- end of frmCalc -->
+
+  <div id="divVersionSelection">
+      Output Scaling: 
+      <td><span class="hotspot" onmouseover="tooltip.show('This section lets you select different units for the tables and charts. Read the tooltips next to each radio button to the right for more information.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+      <input type="radio" name="VersionMode" id="chkVersionGigaLightyear" checked="yes"><label for="chkVersionGigaLightyear">Gyr, Gly</label>
+      <td><span class="hotspot" onmouseover="tooltip.show('This gives most outputs in billion year (Gyr) or billion light year (Gly) units. Some values are in the units c, as indicated and others are dimensionless ratios (e.g. a and S)');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+      <input type="radio" name="VersionMode" id="chkVersionGigaparsec"><label for="chkVersionGigaparsec">Gyr, Gpc</label>
+      <td><span class="hotspot" onmouseover="tooltip.show('This gives distances in Gigaparsec (Gpc) units. Some values are in the units c, as indicated and others are dimensionless ratios (e.g. a and S)');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+      <input type="radio" name="VersionMode" id="chkVersionNormalized"><label for="chkVersionNormalized">Normalized</label>
+      <td><span class="hotspot" onmouseover="tooltip.show('Normalized will give the present time as 1 and the present Hubble radius as 1, with other distances expressed in Hubble radii. This is most useful on graphs, because scales are then very compatible.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+<!--     <input type="radio" name="VersionMode" id="chkVersionZeit"><label for="chkVersionZeit">Zeit</label>
+      <td><span class="hotspot" onmouseover="tooltip.show('One Zeit (German for time) is ~ 17.4 Gyr, the inverse of the long term Hubble value (~ 1/17.3 per Gyr). Similarly, 1 lZeit is a distance of ~ 17.4 Gly. This is the most natural scaling for cosmic times and distances, because it is where the Hubble expansion rate is heading to as a true constant of nature. It also makes for the simplest math representations. This may only be useful for advanced students.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->      
+  </div>
+  
+  <div id="divOutputSelection">
+      Display As: 
+      <td><span class="hotspot" onmouseover="tooltip.show('Standard is the normal view; Office formats and selects a table for copy and paste to office applications; Tex formats for editors that use [tex] tags; Wiki formats for editors that use [[html]] tags, e.g. Wikidot; You can remove the beginning and end [[html]] tags for normal html use. For Chart, see the toopltip on the right.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+      <input type="radio" name="TableMode" id="chkOutputStandard" checked="yes"><label for="chkOutputStandard">Standard</label>
+      <input type="radio" name="TableMode" id="chkOutputStandardInput"><label for="chkOutputStandardInput">Office</label>
+      <input type="radio" name="TableMode" id="chkOutputLaTex"><label for="chkOutputLaTex">Tex small</label>
+      <input type="radio" name="TableMode" id="chkOutputLaTexSmall"><label for="chkOutputLaTexSmall">Tex tiny</label>
+      <input type="radio" name="TableMode" id="chkOutputWiki"><label for="chkOutputWiki">Wiki</label>
+      <input type="radio" name="TableMode" id="chkOutputChart"><label for="chkOutputChart">Chart</label>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --> 
+      <td><span class="hotspot" onmouseover="tooltip.show('Draws a chart for all the values selected in Column Definition, with the horizontal axis  indicated by the radio button selected. The actual density (rho) is considered too small to be charted. Also see Chart Options below.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span></td>
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->      
+  </div>
+  
+  <!-- middle button row -->
+  <div class="divButtonFrame">
+    <div class="divCalcBox">
+      <input type=button id="cmdCalculate" value="Calculate" onClick="CalculateProcess()">
+    </div>
+
+    <div class="divButtonFloatRight">
+        
+      <span class="hotspot" onmouseover="tooltip.show('Opens and hides a table of chart options like scale, markers and chart size. Click Calculate to display chart with options entered. Scales change automatically when ouput scaling options are changed and Calculate clicked.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span>
+
+      <input type=button id="cmdToggleChartOptions" value="Open Chart Options" onClick="ToggleChartOptions()">
+
+
+      <span class="hotspot" onmouseover="tooltip.show('Opens and hides a list of available columns for selection/deselection (ticked/crossed), the number of decimals required and some information tooltips. Radio buttons select one top column as horizontal chart axis. Click Calculate to display columns selected.');" onmouseout="tooltip.hide();"><img src="images/help.png" /></span>
+
+      <input type=button id="cmdToggleColumnConfig" value="Open Column Definition and Selection" onClick="ToggleColumnConfig()">      
+    </div>
+  </div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+  <div id="divChartOptions" class="divOptions" style="display:none;">    
+
+    <div class="divOptionsHeading"><b>Chart Options</b></div>
+
+    <table id="tableChartOptions">
+    
+      <tbody>
+
+        <tr>
+          <td>Vert min</td>
+          <td><input id='ChartVertMinValue' name="ChartVertMinValue_name" size=8 value="-1.0" onfocus="this.select()"></td> 
+          
+          <td>Vert max</td> 
+          <td><input id='ChartVertMaxValue' name="ChartVertMaxValue_name" size=8 value="20.0" onfocus="this.select()"></td>
+          <td> Set according to selected y-columns</td>
+        </tr>
+        <tr>
+          <td>Hor min</td>
+          <td><input id='ChartHorMinValue' name="ChartHorMinValue_name" size=8 value="0.0" onfocus="this.select()"></td>
+
+          <td>Hor max</td>
+          <td><input id='ChartHorMaxValue' name="ChartHorMaxValue_name" size=8 value="30.0" onfocus="this.select()"></td>
+          <td> Set according to selected x-column</td>
+        </tr> 
+        <tr></tr>
+        <tr>
+          <td>Vert marks</td>
+          <td><input id='ChartVertCountValue' name="ChartVertCountValue_name" size=8 value="11" onfocus="this.select()"></td> 
+          <td>Hor marks</td> 
+          <td><input id='ChartHorCountValue' name="ChartHorCountValue_name" size=8 value="11" onfocus="this.select()"></td>
+           <td>Divisions+1</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>Vert size</td>
+          <td><input id='ChartHeightValue' name="ChartHeightValue_name" size=8 value="400" onfocus="this.select()"></td> 
+          
+          <td>Hor size</td> 
+          <td><input id='ChartWidthValue' name="ChartWidthValue_name" size=8 value="650" onfocus="this.select()"></td>
+          <td> Pixels</td>
+        </tr>
+        <tr></tr>
+
+      </tbody>
+            
+    </table>  
+
+    <input type=button value="Calculate" onClick="CalculateProcess()">    
+   
+    <input type=button id="cmdResetChartOptions" value="Reset to Defaults" onClick="ResetChartOptions()"> 
+
+  </div>
+
+  
+  <!-- column setup -->
+  <div id="divColumnConfig" style="display:none;"> <!--display:none; -->
+    <form name="frmConfig" id="frmConfig">
+      <div id="divConfigGroup1"></div>
+      <div id="divConfigGroup2"></div>
+      <div id="divConfigGroup3"></div>
+      <div id="divConfigGroup4"></div>
+    </form>
+    <div id="divConfigControls">
+    </div>
+    <div id="divConfigLock">
+      Keep Open<input type="checkbox" id="chkKeepConfigOpen"/>
+      <br>      
+      <input type=button id="cmdDisableAll" value="None" onClick="DisableAll()">
+      <input type=button id="cmdSetBasic" value="Basic" onClick="SelectBasicColumns()">
+      <input type=button id="cmdEnableAll" value="All" onClick="EnableAll()">
+      <br>   
+      <input type=button id="cmdResetDecimals" value="Reset Decimals" onClick="ResetDecimals()">
+    </div>
+  </div>
+  
+  <div id="divCalculationInfoBar">
+      Waiting for Google charts to load. Ensure that you are connected to the Internet.
+  </div>  
+ 
+     
+  <!-- the result output table -->   
+  <div id="divResultTable">    
+  </div>
+
+  <div id="divPageFooter">    
+  <p>For a Tutorial and the Math used, see <a href="https://www.physicsforums.com/insights/lightcone7combo-tutorial-part/" target="_blank">this Physics Forums Insights Tutorial</a> and <a href="https://www.physicsforums.com/insights/lightcone7-tutorial-part-iii-things-computed/" target="_blank">the same Tutorial, part III.</a></p>
+  <p>Credits to <a href="http://www.physicsforums.com/showthread.php?t=634757">Mordred and Marcus</a> for invaluable inputs and to Coburt for a major reprogramming excercise. </p>
+  <p>Courtesy <a href="http://jorrie.epizy.com/R4E/index.html">Relativity-4-Engineers</a></p>
+  <p>Copyright &copy; 2009-2022
+    <a href="http://jorrie.epizy.com/">jorrie.epizy.com</a>
+    license
+    <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL-3.0-or-later</a>
+    <a href="https://github.com/lightcone7/light-cone-calc">LightConeCalc</a>
+    v<script>document.write(LightConeCalc.version)</script>
+</p>
+  </div>
+
+    
+</body>
+</html>
