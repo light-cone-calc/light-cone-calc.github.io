@@ -1,0 +1,14 @@
+# .prettierignore
+
+# Leave legacy files alone.
+chart_canvg.js
+chart_rgbcolor.js
+chart_toImg.js
+comsocalc_tooltip.js
+cosmocalc_tooltip.css
+FlexCosmo.css
+LightCone7.html
+OutputChart.js
+OutputHTML.js
+OutputTex.js
+Util.js
