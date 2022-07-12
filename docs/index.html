@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>LightCone8</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/light-cone-calc@1.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1"></script>
 
     <script src="chart_rgbcolor.js"></script>
     <script src="chart_canvg.js"></script>
@@ -300,8 +299,7 @@
         var state = document.getElementById('divColumnConfig').style.display;
         if (state == 'inline-block') {
           document.getElementById('divColumnConfig').style.display = 'none';
-          document.getElementById('cmdToggleColumnConfig').value =
-            'Open Column Definition and Selection';
+          document.getElementById('cmdToggleColumnConfig').value = 'Open Column Definition and Selection';
         }
       }
 
@@ -312,8 +310,7 @@
           ClearConversions();
         }
 
-        document.getElementById('divOmegaLValue').innerHTML =
-          window.document.frmCalc.OmegaL.value;
+        document.getElementById('divOmegaLValue').innerHTML = window.document.frmCalc.OmegaL.value;
 
         document.getElementById('divCalculationInfoBar').innerHTML =
           "Some inputs have changed; press 'Calculate' button to update outputs.";
@@ -372,8 +369,7 @@
 
         // z_upperCheck
         if (z_upper < -0.99 || z_upper > 20000 || isNaN(z_upper)) {
-          document.getElementById('divz_upperFeedback').style.color =
-            errorColor;
+          document.getElementById('divz_upperFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
           document.getElementById('divz_upperFeedback').style.color = okColor;
@@ -381,8 +377,7 @@
 
         // z_lowerCheck
         if (z_lower < -0.99 || z_lower >= z_upper || isNaN(z_lower)) {
-          document.getElementById('divz_lowerFeedback').style.color =
-            errorColor;
+          document.getElementById('divz_lowerFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
           document.getElementById('divz_lowerFeedback').style.color = okColor;
@@ -416,8 +411,7 @@
 
         // the extra output, conversion values..............
 
-        var OmegaM =
-          ((Omega - (Ynow * Ynow) / Yinf / Yinf) * s_eq) / (1 + s_eq);
+        var OmegaM = ((Omega - (Ynow * Ynow) / Yinf / Yinf) * s_eq) / (1 + s_eq);
         var s_steps = steps;
         document.getElementById('divYnow').innerHTML = Ynow.toFixed(3);
         document.getElementById('divYinf').innerHTML = Yinf.toFixed(3);
@@ -436,16 +430,14 @@
       }
 
       function CalculateProcess() {
-        if (document.getElementById('chkOutputChart').checked)
-          window.document.frmCalc.steps.value = 100;
+        if (document.getElementById('chkOutputChart').checked) window.document.frmCalc.steps.value = 100;
 
         var columnDisplaySettingsList = GetColumnDisplaySettings();
 
         var columnCount = GetIncludeCount(columnDisplaySettingsList);
         if (columnCount < 1) {
           document.getElementById('divResultTable').innerHTML = '';
-          document.getElementById('divCalculationInfoBar').innerHTML =
-            'No columns selected.';
+          document.getElementById('divCalculationInfoBar').innerHTML = 'No columns selected.';
           return;
         }
 
@@ -461,12 +453,9 @@
         // Set Version variable===============================================
         var LastOutputScaling = OutputScaling;
 
-        if (document.getElementById('chkVersionGigaLightyear').checked)
-          OutputScaling = 'GigaLightyear';
-        if (document.getElementById('chkVersionGigaparsec').checked)
-          OutputScaling = 'Gigaparsec';
-        if (document.getElementById('chkVersionNormalized').checked)
-          OutputScaling = 'Normalized';
+        if (document.getElementById('chkVersionGigaLightyear').checked) OutputScaling = 'GigaLightyear';
+        if (document.getElementById('chkVersionGigaparsec').checked) OutputScaling = 'Gigaparsec';
+        if (document.getElementById('chkVersionNormalized').checked) OutputScaling = 'Normalized';
         //  if(document.getElementById('chkVersionZeit').checked)
         //    OutputScaling = "Zeit";
 
@@ -485,30 +474,14 @@
             break;
         }
 
-        var ChartVertMin = parseFloat(
-          document.getElementById('ChartVertMinValue').value
-        );
-        var ChartVertMax = parseFloat(
-          document.getElementById('ChartVertMaxValue').value
-        );
-        var ChartHorMin = parseFloat(
-          document.getElementById('ChartHorMinValue').value
-        );
-        var ChartHorMax = parseFloat(
-          document.getElementById('ChartHorMaxValue').value
-        );
-        var ChartHeight = parseFloat(
-          document.getElementById('ChartHeightValue').value
-        );
-        var ChartWidth = parseFloat(
-          document.getElementById('ChartWidthValue').value
-        );
-        var ChartVertCount = parseFloat(
-          document.getElementById('ChartVertCountValue').value
-        );
-        var ChartHorCount = parseFloat(
-          document.getElementById('ChartHorCountValue').value
-        );
+        var ChartVertMin = parseFloat(document.getElementById('ChartVertMinValue').value);
+        var ChartVertMax = parseFloat(document.getElementById('ChartVertMaxValue').value);
+        var ChartHorMin = parseFloat(document.getElementById('ChartHorMinValue').value);
+        var ChartHorMax = parseFloat(document.getElementById('ChartHorMaxValue').value);
+        var ChartHeight = parseFloat(document.getElementById('ChartHeightValue').value);
+        var ChartWidth = parseFloat(document.getElementById('ChartWidthValue').value);
+        var ChartVertCount = parseFloat(document.getElementById('ChartVertCountValue').value);
+        var ChartHorCount = parseFloat(document.getElementById('ChartHorCountValue').value);
 
         // *******************************************************************
         var input = GetInput();
@@ -523,80 +496,42 @@
 
         var outputFormat = 'Standard';
 
-        if (document.getElementById('chkOutputStandardInput').checked)
-          outputFormat = 'Office';
-        if (document.getElementById('chkOutputWiki').checked)
-          outputFormat = 'Wiki';
-        if (document.getElementById('chkOutputLaTex').checked)
-          outputFormat = 'LaTex';
-        if (document.getElementById('chkOutputLaTexSmall').checked)
-          outputFormat = 'LaTexSmall';
-        if (document.getElementById('chkOutputChart').checked)
-          outputFormat = 'Chart';
+        if (document.getElementById('chkOutputStandardInput').checked) outputFormat = 'Office';
+        if (document.getElementById('chkOutputWiki').checked) outputFormat = 'Wiki';
+        if (document.getElementById('chkOutputLaTex').checked) outputFormat = 'LaTex';
+        if (document.getElementById('chkOutputLaTexSmall').checked) outputFormat = 'LaTexSmall';
+        if (document.getElementById('chkOutputChart').checked) outputFormat = 'Chart';
 
         var outputString = '';
 
         switch (outputFormat) {
           case 'Standard':
-            outputString = BuildHtmlResultTable(
-              resultList,
-              columnDisplaySettingsList,
-              insertHeadings,
-              OutputScaling
-            );
+            outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
             break;
           case 'Office':
-            outputString = BuildHtmlResultTable(
-              resultList,
-              columnDisplaySettingsList,
-              insertHeadings,
-              OutputScaling
-            );
+            outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
             break;
           case 'LaTex':
             var textSize = 'small';
-            outputString += BuildLaTexResultTable(
-              resultList,
-              columnDisplaySettingsList,
-              textSize,
-              OutputScaling
-            );
+            outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
             break;
           case 'LaTexSmall':
             var textSize = 'scriptsize';
-            outputString =
-              "<div id='divLaTexOutputFrame' class='divLaTexOutputFrame'>";
-            outputString += BuildLaTexResultTable(
-              resultList,
-              columnDisplaySettingsList,
-              textSize,
-              OutputScaling
-            );
+            outputString = "<div id='divLaTexOutputFrame' class='divLaTexOutputFrame'>";
+            outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
             outputString += '</div>';
             break;
           case 'Wiki':
             outputString = '[[html]]';
-            outputString += GetWikiResultTable(
-              resultList,
-              columnDisplaySettingsList,
-              insertHeadings,
-              OutputScaling
-            );
+            outputString += GetWikiResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
             outputString += '[[/html]]';
             break;
           case 'Chart':
-            var data = BuildGoogleDataTable(
-              resultList,
-              columnDisplaySettingsList,
-              OutputScaling
-            );
+            var data = BuildGoogleDataTable(resultList, columnDisplaySettingsList, OutputScaling);
 
-            var primaryIndex = FindPrimaryColumnIndex(
-              columnDisplaySettingsList
-            );
+            var primaryIndex = FindPrimaryColumnIndex(columnDisplaySettingsList);
 
-            var primayColumnName =
-              columnDisplaySettingsList[primaryIndex].longName;
+            var primayColumnName = columnDisplaySettingsList[primaryIndex].longName;
 
             var horAxisLabel = primayColumnName;
 
@@ -641,9 +576,7 @@
         }
 
         if (outputFormat == 'Chart') {
-          var chart = new google.visualization.LineChart(
-            document.getElementById('divResultTable')
-          );
+          var chart = new google.visualization.LineChart(document.getElementById('divResultTable'));
           chart.draw(data, options);
           var divResultTable = document.getElementById('divResultTable');
           toImg(divResultTable, divResultTable);
@@ -654,13 +587,11 @@
         ClearSelection();
         if (outputFormat == 'Office') SelectContainerContent('divResultTable');
         if (outputFormat == 'LaTex') SelectContainerContent('divResultTable');
-        if (outputFormat == 'LaTexSmall')
-          SelectContainerContent('divResultTable');
+        if (outputFormat == 'LaTexSmall') SelectContainerContent('divResultTable');
         if (outputFormat == 'Wiki') SelectContainerContent('divResultTable');
 
         var displayString = 'Outputs updated: ' + GetCurrentDateTimeString();
-        document.getElementById('divCalculationInfoBar').innerHTML =
-          displayString;
+        document.getElementById('divCalculationInfoBar').innerHTML = displayString;
       }
 
       function GetInput() {
@@ -685,8 +616,7 @@
 
         input.S1Included = 0;
 
-        if (window.document.frmCalc.chkExponential.checked)
-          input.exponential = 0;
+        if (window.document.frmCalc.chkExponential.checked) input.exponential = 0;
         else input.exponential = 1;
 
         return input;
@@ -711,27 +641,22 @@
 
     <!-- introdunction -->
     <div id="divIntro" class="divInformation" style="display: none">
-      Welcome to LightCone8, a flexible tabular/charting cosmological calculator
-      for the history and the future of expansion of the universe. Lightcone is
-      based on the standard LCDM cosmic model. You specify the range and number
-      of steps of a table and it gives you times, distances and a host of
-      optional values, characterizing the cosmic expansion history and/or future
-      in that range. The calculator has two input data-sets to choose from, but
-      the values can be adjusted as the user requires.
+      Welcome to LightCone8, a flexible tabular/charting cosmological calculator for the history and the future of
+      expansion of the universe. Lightcone is based on the standard LCDM cosmic model. You specify the range and number
+      of steps of a table and it gives you times, distances and a host of optional values, characterizing the cosmic
+      expansion history and/or future in that range. The calculator has two input data-sets to choose from, but the
+      values can be adjusted as the user requires.
       <br />
       <br />
-      If you adjust the cosmological values by any appreciable amount, you will
-      be calculating for a different universe, not necessarily ours. It is best
-      to leave them at one of the two default (Planck or WMAP) values for now,
-      otherwise you may get results that are difficult to understand. You may
-      want to play around with various redshift (z) ranges for your output
-      table, though.
+      If you adjust the cosmological values by any appreciable amount, you will be calculating for a different universe,
+      not necessarily ours. It is best to leave them at one of the two default (Planck or WMAP) values for now,
+      otherwise you may get results that are difficult to understand. You may want to play around with various redshift
+      (z) ranges for your output table, though.
       <br />
       <br />
-      Further, the user can select various sets of output columns to
-      tabularize/chart over ranges of redshift values. For more information,
-      hover over the ? circles (tooltips) on the calculator. There is also a
-      short user guide available at
+      Further, the user can select various sets of output columns to tabularize/chart over ranges of redshift values.
+      For more information, hover over the ? circles (tooltips) on the calculator. There is also a short user guide
+      available at
       <a href="http://cosmocalc.wikidot.com/">this Wiki</a>.
       <br />
       <br />
@@ -743,26 +668,11 @@
         <div class="divCalcBox">
           <input type="button" value="Calculate" onClick="CalculateProcess()" />
         </div>
-        <input
-          type="button"
-          id="cmdResetInput"
-          value="Reset Input"
-          onClick="ResetInput()"
-        />
+        <input type="button" id="cmdResetInput" value="Reset Input" onClick="ResetInput()" />
         <div class="divButtonFloatRight">
-          <input
-            type="button"
-            id="cmdDefaultWMAP"
-            value="WMAP Data (2013)"
-            onClick="SetDefaultWMAP()"
-          />
+          <input type="button" id="cmdDefaultWMAP" value="WMAP Data (2013)" onClick="SetDefaultWMAP()" />
 
-          <input
-            type="button"
-            id="cmdDefaultPLANCK"
-            value="PLANCK Data (2015)"
-            onClick="SetDefaultPLANCK()"
-          />
+          <input type="button" id="cmdDefaultPLANCK" value="PLANCK Data (2015)" onClick="SetDefaultPLANCK()" />
         </div>
       </div>
 
@@ -789,13 +699,7 @@
               <!-- H_0 -->
               <td>Hubble constant (km s<sup>-1</sup> Mpc<sup>-1</sup>)</td>
               <td>
-                <input
-                  name="H_0"
-                  size="8"
-                  value="67.74"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="H_0" size="8" value="67.74" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -826,13 +730,7 @@
               <!-- OmegaL -->
               <td>Lambda density parameter, &#937;<sub>L</sub></td>
               <td>
-                <input
-                  name="OmegaL"
-                  size="8"
-                  value="0.691"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="OmegaL" size="8" value="0.691" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -865,13 +763,7 @@
               <!-- z_eq -->
               <td>Radiation, matter equal, z<sub>eq</sub></td>
               <td>
-                <input
-                  name="s_eq"
-                  size="8"
-                  value="3370"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="s_eq" size="8" value="3370" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -882,9 +774,7 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divs_eqFeedback">
-                  100 to 999999
-                </div>
+                <div class="divFeedback" id="divs_eqFeedback">100 to 999999</div>
               </td>
 
               <td>Matter density parameter, &#937;<sub>m</sub></td>
@@ -904,13 +794,7 @@
             <tr>
               <td>Total density parameter, &#937;</td>
               <td>
-                <input
-                  name="Omega"
-                  size="8"
-                  value="1.0"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="Omega" size="8" value="1.0" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -945,13 +829,7 @@
               <!-- z_upper -->
               <td>Upper row reshift, z<sub>upper</sub></td>
               <td>
-                <input
-                  name="z_upper"
-                  size="8"
-                  value="1090"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="z_upper" size="8" value="1090" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -962,9 +840,7 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divz_upperFeedback">
-                  > z<sub>lower</sub> to 20000
-                </div>
+                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 20000</div>
               </td>
               <td></td>
               <td></td>
@@ -975,13 +851,7 @@
               <!-- z_lower -->
               <td>Lower row redshift, z<sub>lower</sub></td>
               <td>
-                <input
-                  name="z_lower"
-                  size="8"
-                  value="-0.99"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="z_lower" size="8" value="-0.99" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -992,9 +862,7 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divz_lowerFeedback">
-                  -0.99 to < z<sub>upper</sub>
-                </div>
+                <div class="divFeedback" id="divz_lowerFeedback">-0.99 to < z<sub>upper</sub></div>
               </td>
               <td></td>
               <td></td>
@@ -1003,13 +871,7 @@
             <tr>
               <td>Number of steps displayed</td>
               <td>
-                <input
-                  name="steps"
-                  size="8"
-                  value="10"
-                  onfocus="this.select()"
-                  onblur="InputChanged()"
-                />
+                <input name="steps" size="8" value="10" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -1051,12 +913,10 @@
           ><img src="images/help.png"
         /></span>
       </td>
-      <input
-        type="radio"
-        name="VersionMode"
-        id="chkVersionGigaLightyear"
-        checked="yes"
-      /><label for="chkVersionGigaLightyear">Gyr, Gly</label>
+      <input type="radio" name="VersionMode" id="chkVersionGigaLightyear" checked="yes" /><label
+        for="chkVersionGigaLightyear"
+        >Gyr, Gly</label
+      >
       <td>
         <span
           class="hotspot"
@@ -1065,8 +925,7 @@
           ><img src="images/help.png"
         /></span>
       </td>
-      <input type="radio" name="VersionMode" id="chkVersionGigaparsec" /><label
-        for="chkVersionGigaparsec"
+      <input type="radio" name="VersionMode" id="chkVersionGigaparsec" /><label for="chkVersionGigaparsec"
         >Gyr, Gpc</label
       >
       <td>
@@ -1077,8 +936,7 @@
           ><img src="images/help.png"
         /></span>
       </td>
-      <input type="radio" name="VersionMode" id="chkVersionNormalized" /><label
-        for="chkVersionNormalized"
+      <input type="radio" name="VersionMode" id="chkVersionNormalized" /><label for="chkVersionNormalized"
         >Normalized</label
       >
       <td>
@@ -1101,32 +959,16 @@
           ><img src="images/help.png"
         /></span>
       </td>
-      <input
-        type="radio"
-        name="TableMode"
-        id="chkOutputStandard"
-        checked="yes"
-      /><label for="chkOutputStandard">Standard</label>
-      <input type="radio" name="TableMode" id="chkOutputStandardInput" /><label
-        for="chkOutputStandardInput"
+      <input type="radio" name="TableMode" id="chkOutputStandard" checked="yes" /><label for="chkOutputStandard"
+        >Standard</label
+      >
+      <input type="radio" name="TableMode" id="chkOutputStandardInput" /><label for="chkOutputStandardInput"
         >Office</label
       >
-      <input type="radio" name="TableMode" id="chkOutputLaTex" /><label
-        for="chkOutputLaTex"
-        >Tex small</label
-      >
-      <input type="radio" name="TableMode" id="chkOutputLaTexSmall" /><label
-        for="chkOutputLaTexSmall"
-        >Tex tiny</label
-      >
-      <input type="radio" name="TableMode" id="chkOutputWiki" /><label
-        for="chkOutputWiki"
-        >Wiki</label
-      >
-      <input type="radio" name="TableMode" id="chkOutputChart" /><label
-        for="chkOutputChart"
-        >Chart</label
-      >
+      <input type="radio" name="TableMode" id="chkOutputLaTex" /><label for="chkOutputLaTex">Tex small</label>
+      <input type="radio" name="TableMode" id="chkOutputLaTexSmall" /><label for="chkOutputLaTexSmall">Tex tiny</label>
+      <input type="radio" name="TableMode" id="chkOutputWiki" /><label for="chkOutputWiki">Wiki</label>
+      <input type="radio" name="TableMode" id="chkOutputChart" /><label for="chkOutputChart">Chart</label>
       <td>
         <span
           class="hotspot"
@@ -1140,12 +982,7 @@
     <!-- middle button row -->
     <div class="divButtonFrame">
       <div class="divCalcBox">
-        <input
-          type="button"
-          id="cmdCalculate"
-          value="Calculate"
-          onClick="CalculateProcess()"
-        />
+        <input type="button" id="cmdCalculate" value="Calculate" onClick="CalculateProcess()" />
       </div>
 
       <div class="divButtonFloatRight">
@@ -1156,12 +993,7 @@
           ><img src="images/help.png"
         /></span>
 
-        <input
-          type="button"
-          id="cmdToggleChartOptions"
-          value="Open Chart Options"
-          onClick="ToggleChartOptions()"
-        />
+        <input type="button" id="cmdToggleChartOptions" value="Open Chart Options" onClick="ToggleChartOptions()" />
 
         <span
           class="hotspot"
@@ -1212,24 +1044,12 @@
           <tr>
             <td>Hor min</td>
             <td>
-              <input
-                id="ChartHorMinValue"
-                name="ChartHorMinValue_name"
-                size="8"
-                value="0.0"
-                onfocus="this.select()"
-              />
+              <input id="ChartHorMinValue" name="ChartHorMinValue_name" size="8" value="0.0" onfocus="this.select()" />
             </td>
 
             <td>Hor max</td>
             <td>
-              <input
-                id="ChartHorMaxValue"
-                name="ChartHorMaxValue_name"
-                size="8"
-                value="30.0"
-                onfocus="this.select()"
-              />
+              <input id="ChartHorMaxValue" name="ChartHorMaxValue_name" size="8" value="30.0" onfocus="this.select()" />
             </td>
             <td>Set according to selected x-column</td>
           </tr>
@@ -1261,24 +1081,12 @@
           <tr>
             <td>Vert size</td>
             <td>
-              <input
-                id="ChartHeightValue"
-                name="ChartHeightValue_name"
-                size="8"
-                value="400"
-                onfocus="this.select()"
-              />
+              <input id="ChartHeightValue" name="ChartHeightValue_name" size="8" value="400" onfocus="this.select()" />
             </td>
 
             <td>Hor size</td>
             <td>
-              <input
-                id="ChartWidthValue"
-                name="ChartWidthValue_name"
-                size="8"
-                value="650"
-                onfocus="this.select()"
-              />
+              <input id="ChartWidthValue" name="ChartWidthValue_name" size="8" value="650" onfocus="this.select()" />
             </td>
             <td>Pixels</td>
           </tr>
@@ -1288,12 +1096,7 @@
 
       <input type="button" value="Calculate" onClick="CalculateProcess()" />
 
-      <input
-        type="button"
-        id="cmdResetChartOptions"
-        value="Reset to Defaults"
-        onClick="ResetChartOptions()"
-      />
+      <input type="button" id="cmdResetChartOptions" value="Reset to Defaults" onClick="ResetChartOptions()" />
     </div>
 
     <!-- column setup -->
@@ -1309,37 +1112,16 @@
       <div id="divConfigLock">
         Keep Open<input type="checkbox" id="chkKeepConfigOpen" />
         <br />
-        <input
-          type="button"
-          id="cmdDisableAll"
-          value="None"
-          onClick="DisableAll()"
-        />
-        <input
-          type="button"
-          id="cmdSetBasic"
-          value="Basic"
-          onClick="SelectBasicColumns()"
-        />
-        <input
-          type="button"
-          id="cmdEnableAll"
-          value="All"
-          onClick="EnableAll()"
-        />
+        <input type="button" id="cmdDisableAll" value="None" onClick="DisableAll()" />
+        <input type="button" id="cmdSetBasic" value="Basic" onClick="SelectBasicColumns()" />
+        <input type="button" id="cmdEnableAll" value="All" onClick="EnableAll()" />
         <br />
-        <input
-          type="button"
-          id="cmdResetDecimals"
-          value="Reset Decimals"
-          onClick="ResetDecimals()"
-        />
+        <input type="button" id="cmdResetDecimals" value="Reset Decimals" onClick="ResetDecimals()" />
       </div>
     </div>
 
     <div id="divCalculationInfoBar">
-      Waiting for Google charts to load. Ensure that you are connected to the
-      Internet.
+      Waiting for Google charts to load. Ensure that you are connected to the Internet.
     </div>
 
     <!-- the result output table -->
@@ -1348,43 +1130,31 @@
     <div id="divPageFooter">
       <p>
         For a Tutorial and the Math used, see
-        <a
-          href="https://www.physicsforums.com/insights/lightcone7combo-tutorial-part/"
-          target="_blank"
+        <a href="https://www.physicsforums.com/insights/lightcone7combo-tutorial-part/" target="_blank"
           >this Physics Forums Insights Tutorial</a
         >
         and
-        <a
-          href="https://www.physicsforums.com/insights/lightcone7-tutorial-part-iii-things-computed/"
-          target="_blank"
+        <a href="https://www.physicsforums.com/insights/lightcone7-tutorial-part-iii-things-computed/" target="_blank"
           >the same Tutorial, part III.</a
         >
       </p>
       <p>
         Credits to
-        <a href="http://www.physicsforums.com/showthread.php?t=634757"
-          >Mordred and Marcus</a
-        >
+        <a href="http://www.physicsforums.com/showthread.php?t=634757">Mordred and Marcus</a>
         for invaluable inputs and to Coburt for a major reprogramming excercise.
       </p>
       <p>
         Courtesy
-        <a href="http://jorrie.epizy.com/R4E/index.html"
-          >Relativity-4-Engineers</a
-        >
+        <a href="http://jorrie.epizy.com/R4E/index.html">Relativity-4-Engineers</a>
       </p>
       <p>
         Copyright &copy; 2009-2022
         <a href="http://jorrie.epizy.com/">jorrie.epizy.com</a>
         license
-        <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html"
-          >AGPL-3.0-or-later</a
-        >
-        <a href="https://github.com/lightcone7/light-cone-calc"
-          >LightConeCalc</a
-        >
+        <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL-3.0-or-later</a>
+        <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
         <script>
-          document.write('v' + LightConeCalc.version);
+          document.write('v' + CosmicExpansion.version);
         </script>
       </p>
     </div>
