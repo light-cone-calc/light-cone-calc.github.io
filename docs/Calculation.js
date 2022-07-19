@@ -1,45 +1,37 @@
-// Keep this from the legacy Calculation.js file.
-var CalcInput = pojo(
-  'Ynow',
-  'Yinf',
-  's_eq',
-  's_lower',
-  's_upper',
-  's_step',
-  'exponential',
-  'S1Included',
-  'Omega'
-);
+/* global CosmicExpansion */
 
 // Import the rest from the LightConeCalc module.
 const { create } = CosmicExpansion;
 
-// Provide light-cone-calc legacy interface.
-
-const convertLegacyInputs = (inputs) => {
-  const { Ynow, s_eq, Omega, s_lower, s_upper, s_step, exponential } = inputs;
-
-  const Yinf = Math.max(Ynow, inputs.Yinf);
-  const OmegaL = (Ynow / Yinf) * (Ynow / Yinf); // Lambda density parameter
-  const H0GYr = 1 / Ynow; // Hubble const now
+// Gather the inputs from the UI.
+const getInputs = () => {
   const modelOptions = {
-    // Ynow,
-    // Yinf,
-    zEq: s_eq - 1,
-    omega0: Omega,
-    omegaLambda0: OmegaL,
-    // The legacy code passes Ynow = 978 / H_0.
-    h0: H0GYr * 978,
-    temperature0: 2.72548,
+    zEq: parseFloat(window.document.frmCalc.z_eq.value),
+    omega0: parseFloat(window.document.frmCalc.Omega.value),
+    omegaLambda0: parseFloat(window.document.frmCalc.OmegaL.value),
+    h0: parseFloat(window.document.frmCalc.H_0.value),
   };
+
   const expansionInputs = {
-    stretch: [s_upper, s_lower],
-    steps: s_step,
-    exponentialSteps: exponential ? true : false,
+    stretch: [
+      parseFloat(window.document.frmCalc.z_upper.value) + 1,
+      parseFloat(window.document.frmCalc.z_lower.value) + 1,
+    ],
+    steps: parseFloat(window.document.frmCalc.steps.value),
+    exponentialSteps: !window.document.frmCalc.chkExponential.checked,
   };
+
   return [modelOptions, expansionInputs];
 };
 
+/**
+ * Calculate is called by the front end to do the integration.
+ *
+ * We now ignore the inputs provided by the front end and extract these
+ * directly from the html `input` elements.
+ *
+ * @returns Integration results.
+ */
 const convertLegacyOutputs = (data, model) =>
   data.map((entry) => {
     return {
@@ -65,35 +57,49 @@ const convertLegacyOutputs = (data, model) =>
     };
   });
 
-function Calculate(inputs) {
-  const [modelOptions, expansionInputs] = convertLegacyInputs(inputs);
+/**
+ * Calculate is called by the front end to do the integration.
+ *
+ * We now ignore the inputs provided by the front end and extract these
+ * directly from the html `input` elements.
+ *
+ * @returns Integration results.
+ */
+// eslint-disable-next-line no-unused-vars
+function Calculate() {
+  const [modelOptions, expansionInputs] = getInputs();
   const model = create(modelOptions);
   return convertLegacyOutputs(model.calculateExpansion(expansionInputs), model);
 }
 
-// This uses a bit of a hack to calculate the current age of the universe:
-// the integration only needs to be done from s = 1 to infinity so s = 2 is
-// redundant.
-function CalculateTage(inputs) {
-  const [modelOptions] = convertLegacyInputs(inputs);
+/**
+ * CalculateTage is called by the front end to do the integration.
+ *
+ * We now ignore the inputs provided by the front end and extract these
+ * directly from the html `input` elements.
+ *
+ * @returns The current age according to the input parameters.
+ */
+function CalculateTage() {
+  const [modelOptions] = getInputs();
   return create(modelOptions).age;
 }
 
+// eslint-disable-next-line no-unused-vars
 function ScaleResults(resultList, input, OutputScaling) {
-  var MegaParsec = 3.262; // 1 Gpc = 3.264 Gly
+  const MegaParsec = 3.262; // 1 Gpc = 3.264 Gly
 
-  const [modelOptions] = convertLegacyInputs(input);
+  const [modelOptions] = getInputs();
   const model = create(modelOptions);
-  var ConversionHo = 1 / model.props.kmsmpscToGyr;
+  const ConversionHo = 1 / model.props.kmsmpscToGyr;
 
-  var Ynow = input.Ynow;
-  var Tage = CalculateTage(input);
+  const Ynow = input.Ynow;
+  const Tage = CalculateTage(input);
 
-  var Yinf = input.Yinf;
-  if (Yinf < Ynow) Yinf = Ynow;
+  const Yinf = Math.max(input.Yinf, Ynow);
 
-  for (var i = 0; i < resultList.length; i++) {
-    var result = resultList[i];
+  for (let i = 0; i < resultList.length; i++) {
+    const result = resultList[i];
 
     switch (OutputScaling) {
       case 'GigaLightyear':

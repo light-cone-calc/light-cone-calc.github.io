@@ -1,6 +1,24 @@
 # Changelog
 
-## 1.8.1 - 2022-06-14
+## Unreleased
+
+There are no unreleased changes.
+
+## 8.1.0 _2022-07-19_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.0))
+
+### Changed
+
+- Inputs to expansion calclations are now read directly from the HTML form fields.
+- Core calculations are now an NPM module
+  [cosmic-expansion](https://www.npmjs.com/package/cosmic-expansion).
+- Updated and rearranged footer credits etc.
+
+### Fixed
+
+- z_eq/s_eq confusion leading to incorrect calculation of Omega_M0 (see
+  [PhysicsForums thread](https://www.physicsforums.com/threads/a-glitch-in-jorries-cosmo-calculator.1014779/post-6653909)).
+
+## 1.8.1 _2022-06-14_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v1.8.1))
 
 ### Added
 

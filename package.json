@@ -1,10 +1,10 @@
 {
-  "version": "1.8.1",
   "scripts": {
-    "lint": "prettier . --check",
-    "lint:fix": "prettier . --write"
+    "lint": "prettier . --check && eslint .",
+    "lint:fix": "prettier . --write && eslint . --fix"
   },
   "devDependencies": {
+    "eslint": "^8.20.0",
     "prettier": "^2.7.0"
   }
 }

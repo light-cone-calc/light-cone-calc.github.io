@@ -1,8 +1,7 @@
-# .prettierignore
+# .eslintignore
 
 # Leave legacy files alone.
 docs/*
 # ... but not the legacy interface script.
 !docs/Calculation.js
-# Set printWidth to 120 before prettifying index.html.
-# !docs/index.html
+!docs/index.html
