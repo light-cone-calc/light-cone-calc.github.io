@@ -1,8 +1,11 @@
 # Changelog
 
-## Unreleased
+## 8.1.1 _2022-07-24_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.1))
 
-There are no unreleased changes.
+### Fixed
+
+- Use more accurate conversions from CosmicExpansion module.
+- Correct version in footer.
 
 ## 8.1.0 _2022-07-19_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.0))
 

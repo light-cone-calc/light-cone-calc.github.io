@@ -87,11 +87,10 @@ function CalculateTage() {
 
 // eslint-disable-next-line no-unused-vars
 function ScaleResults(resultList, input, OutputScaling) {
-  const MegaParsec = 3.262; // 1 Gpc = 3.264 Gly
+  const { kmsmpscToGyr, parsecToLy } = CosmicExpansion.physicalConstants;
 
   const [modelOptions] = getInputs();
   const model = create(modelOptions);
-  const ConversionHo = 1 / model.props.kmsmpscToGyr;
 
   const Ynow = input.Ynow;
   const Tage = CalculateTage(input);
@@ -103,15 +102,15 @@ function ScaleResults(resultList, input, OutputScaling) {
 
     switch (OutputScaling) {
       case 'GigaLightyear':
-        result.H_t = result.H_t * ConversionHo;
+        result.H_t = result.H_t / kmsmpscToGyr;
         break;
       case 'Gigaparsec':
-        result.Y = result.Y / MegaParsec;
-        result.Dnow = result.Dnow / MegaParsec;
-        result.Dthen = result.Dthen / MegaParsec;
-        result.Dhor = result.Dhor / MegaParsec;
-        result.Dpar = result.Dpar / MegaParsec;
-        result.H_t = result.H_t * ConversionHo;
+        result.Y = result.Y / parsecToLy;
+        result.Dnow = result.Dnow / parsecToLy;
+        result.Dthen = result.Dthen / parsecToLy;
+        result.Dhor = result.Dhor / parsecToLy;
+        result.Dpar = result.Dpar / parsecToLy;
+        result.H_t = result.H_t / kmsmpscToGyr;
         break;
       case 'Normalized':
         result.Tnow = result.Tnow / Tage;

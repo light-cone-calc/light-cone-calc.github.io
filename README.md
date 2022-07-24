@@ -1,10 +1,12 @@
 # light-cone-calc.github.io
 
-> This is the LightCone cosmic expansion calculator.
+> A web-based cosmic expansion calculator, currently LightCone8.
+
+See it in action at https://light-cone-calc.github.io.
 
 ## Development
 
-This project is currently maintained by just one person! I would be grateful
-for any volunteers: please message me
-[@pbuk on PhysicsForums](https://www.physicsforums.com/members/pbuk.385977/)
-with your GitHub username.
+Please message me
+[@pbuk](https://www.physicsforums.com/members/pbuk.385977/)
+or discuss any issues on 
+[PhysicsForums](https://www.physicsforums.com/forums/cosmology.69/).
