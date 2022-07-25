@@ -1,5 +1,12 @@
 # Changelog
 
+## 8.1.2 _2022-07-25_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.1))
+
+### Changed
+
+- Use CosmicExpansion v1.1.0 instead of v1.x.x (which may be an older locally
+  cached version).
+
 ## 8.1.1 _2022-07-24_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.1))
 
 ### Fixed
