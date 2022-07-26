@@ -594,8 +594,20 @@
         if (outputFormat == 'Wiki') SelectContainerContent('divResultTable');
 
         var displayString = 'Outputs updated: ' + GetCurrentDateTimeString();
-        document.getElementById('divCalculationInfoBar').innerHTML = displayString;
+document.getElementById('divCalculationInfoBar').innerHTML = displayString;
       }
+      // This has been moved from Calculation.js where it is no longer reqired.
+      const CalcInput = pojo(
+        'Ynow',
+        'Yinf',
+        'z_eq',
+        's_lower',
+        's_upper',
+        's_step',
+        'exponential',
+        'S1Included',
+        'Omega'
+      );
 
       // This has been moved from Calculation.js where it is no longer reqired.
       const CalcInput = pojo(
@@ -615,7 +627,7 @@
         var input = CalcInput();
 
         input.Omega = parseFloat(window.document.frmCalc.Omega.value);
-        // ***********************************************************
+        // **************************************
 
         var H_0 = parseFloat(window.document.frmCalc.H_0.value);
         var OmegaL = parseFloat(window.document.frmCalc.OmegaL.value);
@@ -692,7 +704,7 @@
         </div>
       </div>
 
-      <!-- ***************************************************************** -->
+      <!-- ********************************************* -->
       <!-- start of inputs table -->
       <div id="divInputs">
         <table id="tableInputs">
