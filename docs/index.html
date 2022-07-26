@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>LightCone8</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
@@ -29,6 +32,8 @@
       function StartUp() {
         SetTitles();
         CreateColumnSetupBlocks();
+
+		SetDefaultPLANCK_2018_base();
 
         InputChanged();
 
@@ -107,6 +112,22 @@
         window.document.frmCalc.H_0.value = 67.74;
         window.document.frmCalc.OmegaL.value = 0.691;
         window.document.frmCalc.z_eq.value = 3370;
+        window.document.frmCalc.Omega.value = 1.0;
+        InputChanged();
+      }
+
+      function SetDefaultPLANCK_2018_base() {
+        window.document.frmCalc.H_0.value = 67.36;
+        window.document.frmCalc.OmegaL.value = 0.6847;
+        window.document.frmCalc.z_eq.value = 3402;
+        window.document.frmCalc.Omega.value = 1.0;
+        InputChanged();
+      }
+      
+      function SetDefaultPLANCK_2018_BAO() {
+        window.document.frmCalc.H_0.value = 67.66;
+        window.document.frmCalc.OmegaL.value = 0.6889;
+        window.document.frmCalc.z_eq.value = 3387;
         window.document.frmCalc.Omega.value = 1.0;
         InputChanged();
       }
@@ -368,7 +389,7 @@
         }
 
         // z_upperCheck
-        if (z_upper < -0.99 || z_upper > 20000 || isNaN(z_upper)) {
+        if (z_upper < -0.99 || z_upper > 200000 || isNaN(z_upper)) {
           document.getElementById('divz_upperFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
@@ -683,9 +704,11 @@
         </div>
         <input type="button" id="cmdResetInput" value="Reset Input" onClick="ResetInput()" />
         <div class="divButtonFloatRight">
-          <input type="button" id="cmdDefaultWMAP" value="WMAP Data (2013)" onClick="SetDefaultWMAP()" />
+          <input type="button" id="cmdDefaultWMAP" value="WMAP (2013)" onClick="SetDefaultWMAP()" />
+          <input type="button" id="cmdDefaultPLANCK" value="PLANCK(2015)" onClick="SetDefaultPLANCK()" />
+          <input type="button" id="cmdDefaultPLANCK_2018_base" value="PLANCK(2018-base)" onClick="SetDefaultPLANCK_2018_base()" />
+          <input type="button" id="cmdDefaultPLANCK_2018_BAO" value="PLANCK(2018+BAO)" onClick="SetDefaultPLANCK_2018_BAO()" />
 
-          <input type="button" id="cmdDefaultPLANCK" value="PLANCK Data (2015)" onClick="SetDefaultPLANCK()" />
         </div>
       </div>
 
@@ -712,7 +735,7 @@
               <!-- H_0 -->
               <td>Hubble constant (km s<sup>-1</sup> Mpc<sup>-1</sup>)</td>
               <td>
-                <input name="H_0" size="8" value="67.74" onfocus="this.select()" onblur="InputChanged()" />
+                <input name="H_0" size="8" value="" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -743,7 +766,7 @@
               <!-- OmegaL -->
               <td>Lambda density parameter, &#937;<sub>L</sub></td>
               <td>
-                <input name="OmegaL" size="8" value="0.691" onfocus="this.select()" onblur="InputChanged()" />
+                <input name="OmegaL" size="8" value="" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -776,7 +799,7 @@
               <!-- z_eq -->
               <td>Radiation, matter equal, z<sub>eq</sub></td>
               <td>
-                <input name="z_eq" size="8" value="3370" onfocus="this.select()" onblur="InputChanged()" />
+                <input name="z_eq" size="8" value="" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -807,7 +830,7 @@
             <tr>
               <td>Total density parameter, &#937;</td>
               <td>
-                <input name="Omega" size="8" value="1.0" onfocus="this.select()" onblur="InputChanged()" />
+                <input name="Omega" size="8" value="" onfocus="this.select()" onblur="InputChanged()" />
               </td>
               <td>
                 <span
@@ -853,7 +876,7 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 20000</div>
+                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 200000</div>
               </td>
               <td></td>
               <td></td>
@@ -1151,10 +1174,12 @@
           >the same Tutorial, part III.</a
         >
         Credits to
-        <a href="https://www.physicsforums.com/showthread.php?t=634757">Mordred and Marcus</a>
-        for invaluable inputs and to Coburt and
-        <a href="https://github.com/pb-uk">pbuk</a>
-        for major reprogramming excercises. Courtesy
+        <a href="http://www.physicsforums.com/showthread.php?t=634757">@Mordred,  
+        @Marcus and @George Jones</a>
+        for invaluable inputs and to Coburt and @PBUK for major reprogramming excercises.
+      </p>
+      <p>
+        Courtesy
         <a href="http://jorrie.epizy.com/R4E/index.html">Relativity-4-Engineers</a>
       </p>
       <p style="text-align: center;">
@@ -1171,6 +1196,6 @@
           </script>
         </small>
       </p>
-    </footer>
+    </div>
   </body>
 </html>
