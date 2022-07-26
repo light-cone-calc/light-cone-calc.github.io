@@ -114,6 +114,22 @@
         InputChanged();
       }
 
+      function SetDefaultPLANCK_2018_base() {
+        window.document.frmCalc.H_0.value = 67.36;
+        window.document.frmCalc.OmegaL.value = 0.6847;
+        window.document.frmCalc.s_eq.value = 3402;
+        window.document.frmCalc.Omega.value = 1.0;
+        InputChanged();
+      }
+      
+      function SetDefaultPLANCK_2018_BAO() {
+        window.document.frmCalc.H_0.value = 67.66;
+        window.document.frmCalc.OmegaL.value = 0.6889;
+        window.document.frmCalc.s_eq.value = 3387;
+        window.document.frmCalc.Omega.value = 1.0;
+        InputChanged();
+      }
+
       function SetDefaultChartSample() {
         window.document.frmCalc.steps.value = 100;
         InputChanged();
@@ -371,7 +387,7 @@
         }
 
         // z_upperCheck
-        if (z_upper < -0.99 || z_upper > 20000 || isNaN(z_upper)) {
+        if (z_upper < -0.99 || z_upper > 200000 || isNaN(z_upper)) {
           document.getElementById('divz_upperFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
@@ -686,9 +702,11 @@
         </div>
         <input type="button" id="cmdResetInput" value="Reset Input" onClick="ResetInput()" />
         <div class="divButtonFloatRight">
-          <input type="button" id="cmdDefaultWMAP" value="WMAP Data (2013)" onClick="SetDefaultWMAP()" />
+          <input type="button" id="cmdDefaultWMAP" value="WMAP (2013)" onClick="SetDefaultWMAP()" />
+          <input type="button" id="cmdDefaultPLANCK" value="PLANCK(2015)" onClick="SetDefaultPLANCK()" />
+          <input type="button" id="cmdDefaultPLANCK_2018_base" value="PLANCK(2018-base)" onClick="SetDefaultPLANCK_2018_base()" />
+          <input type="button" id="cmdDefaultPLANCK_2018_BAO" value="PLANCK(2018+BAO)" onClick="SetDefaultPLANCK_2018_BAO()" />
 
-          <input type="button" id="cmdDefaultPLANCK" value="PLANCK Data (2015)" onClick="SetDefaultPLANCK()" />
         </div>
       </div>
 
@@ -856,7 +874,7 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 20000</div>
+                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 200000</div>
               </td>
               <td></td>
               <td></td>
