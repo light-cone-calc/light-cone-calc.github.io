@@ -610,27 +610,15 @@
         if (outputFormat == 'Wiki') SelectContainerContent('divResultTable');
 
         var displayString = 'Outputs updated: ' + GetCurrentDateTimeString();
-document.getElementById('divCalculationInfoBar').innerHTML = displayString;
+        document.getElementById('divCalculationInfoBar').innerHTML = displayString;
       }
-      // This has been moved from Calculation.js where it is no longer reqired.
-      const CalcInput = pojo(
-        'Ynow',
-        'Yinf',
-        'z_eq',
-        's_lower',
-        's_upper',
-        's_step',
-        'exponential',
-        'S1Included',
-        'Omega'
-      );
 
       function GetInput() {
         // get inputs
         var input = CalcInput();
 
         input.Omega = parseFloat(window.document.frmCalc.Omega.value);
-        // **************************************
+        // ***********************************************************
 
         var H_0 = parseFloat(window.document.frmCalc.H_0.value);
         var OmegaL = parseFloat(window.document.frmCalc.OmegaL.value);
@@ -709,7 +697,7 @@ document.getElementById('divCalculationInfoBar').innerHTML = displayString;
         </div>
       </div>
 
-      <!-- ********************************************* -->
+      <!-- ***************************************************************** -->
       <!-- start of inputs table -->
       <div id="divInputs">
         <table id="tableInputs">
@@ -1173,26 +1161,24 @@ document.getElementById('divCalculationInfoBar').innerHTML = displayString;
       </p>
       <p>
         Credits to
-        <a href="https://www.physicsforums.com/showthread.php?t=634757">Mordred and Marcus</a>
-        for invaluable inputs and to Coburt and
-        <a href="https://github.com/pb-uk">pbuk</a>
-        for major reprogramming excercises. Courtesy
+        <a href="http://www.physicsforums.com/showthread.php?t=634757">@Mordred,  
+        @Marcus and @George Jones</a>
+        for invaluable inputs and to Coburt and @PBUK for major reprogramming excercises.
+      </p>
+      <p>
+        Courtesy
         <a href="http://jorrie.epizy.com/R4E/index.html">Relativity-4-Engineers</a>
       </p>
-      <p style="text-align: center;">
-        <small>
-          Copyright &copy; 2009-2022
-          <a href="http://jorrie.epizy.com/">jorrie.epizy.com</a> |
-          <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL</a>
-          license |
-          <a href="https://github.com/light-cone-calc/light-cone-calc.github.io">LightCone</a>
-          v8.1.2 |
-          <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
-          <script>
-            document.write('v' + CosmicExpansion.version);
-          </script>
-        </small>
+      <p>
+        Copyright &copy; 2009-2022
+        <a href="http://jorrie.epizy.com/">jorrie.epizy.com</a>
+        license
+        <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL-3.0-or-later</a>
+        <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
+        <script>
+          document.write('v' + CosmicExpansion.version);
+        </script>
       </p>
-    </footer>
+    </div>
   </body>
 </html>
