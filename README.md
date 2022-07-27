@@ -8,5 +8,5 @@ See it in action at https://light-cone-calc.github.io.
 
 Please message me
 [@pbuk](https://www.physicsforums.com/members/pbuk.385977/)
-or discuss any issues on 
+or discuss any issues on
 [PhysicsForums](https://www.physicsforums.com/forums/cosmology.69/).
