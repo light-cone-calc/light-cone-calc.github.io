@@ -1,5 +1,11 @@
 # Changelog
 
+## 8.2.0 _2022-07-27_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.2.0))
+
+### Added
+
+- Additional options for Planck 2018 and Planck 2018 + BAO survey parameters.
+
 ## 8.1.2 _2022-07-25_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.1.1))
 
 ### Changed
