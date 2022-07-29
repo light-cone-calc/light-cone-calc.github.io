@@ -294,6 +294,20 @@ padding: 5px;
   margin-bottom: 10px;
   background-color: lightyellow;
 }       
+.divCSVOutputFrame 
+{
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 750px;
+  width: 750px;      
+  margin-top: 7px;
+  margin-bottom: 10px;
+  background-color: lightyellow;
+}       
 
 #divResultTable { margin-top:10px; margin-bottom: 5px; }
 #divResultTable th { text-align:center; padding-left:7px; padding-right:7px; } 

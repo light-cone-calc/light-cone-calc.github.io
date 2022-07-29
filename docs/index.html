@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>LightCone8</title>
+    <title>LightCone8 - 2022-07-30</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -17,6 +17,7 @@
     <script src="OutputHTML.js"></script>
     <script src="OutputChart.js"></script>
     <script src="OutputTex.js"></script>
+    <script src="OutputCsv.js"></script>
     <script src="comsocalc_tooltip.js"></script>
 
     <link rel="stylesheet" type="text/css" href="FlexCosmo.css" />
@@ -432,11 +433,11 @@
 
         // the extra output, conversion values..............
 
-        var OmegaM = ((Omega - (Ynow * Ynow) / Yinf / Yinf) * s_eq) / (1 + s_eq);
+        var OmegaR = Omega/s_eq;
         var s_steps = steps;
         document.getElementById('divYnow').innerHTML = Ynow.toFixed(3);
         document.getElementById('divYinf').innerHTML = Yinf.toFixed(3);
-        document.getElementById('divOmegaM').innerHTML = OmegaM.toFixed(4);
+        document.getElementById('divOmegaR').innerHTML = OmegaR.toFixed(6);
 
         // tage
         var tage = CalculateTage(input);
@@ -446,7 +447,7 @@
       function ClearConversions() {
         document.getElementById('divYnow').innerHTML = '-';
         document.getElementById('divYinf').innerHTML = '-';
-        document.getElementById('divOmegaM').innerHTML = '-';
+        document.getElementById('divOmegaR').innerHTML = '-';
         document.getElementById('divTage').innerHTML = '-';
       }
 
@@ -519,10 +520,9 @@
 
         if (document.getElementById('chkOutputStandardInput').checked) outputFormat = 'Office';
         if (document.getElementById('chkOutputWiki').checked) outputFormat = 'Wiki';
+        if (document.getElementById('chkOutputCsv').checked) outputFormat = 'Csv';
         if (document.getElementById('chkOutputLaTex').checked) outputFormat = 'LaTex';
-        if (document.getElementById('chkOutputLaTexSmall').checked) outputFormat = 'LaTexSmall';
         if (document.getElementById('chkOutputChart').checked) outputFormat = 'Chart';
-
         var outputString = '';
 
         switch (outputFormat) {
@@ -532,15 +532,17 @@
           case 'Office':
             outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
             break;
-          case 'LaTex':
+          case 'Csv':
             var textSize = 'small';
-            outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
+ //           outputString = "<div id='divCsvOutputFrame' class='divCsvOutputFrame'>";
+            outputString += BuildCsvResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
+ //           outputString += '</div>';
             break;
-          case 'LaTexSmall':
+          case 'LaTex':
             var textSize = 'scriptsize';
-            outputString = "<div id='divLaTexOutputFrame' class='divLaTexOutputFrame'>";
+  //          outputString = "<div id='divLaTexOutputFrame' class='divLaTexOutputFrame'>";
             outputString += BuildLaTexResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
-            outputString += '</div>';
+  //          outputString += '</div>';
             break;
           case 'Wiki':
             outputString = '[[html]]';
@@ -607,8 +609,8 @@
 
         ClearSelection();
         if (outputFormat == 'Office') SelectContainerContent('divResultTable');
+        if (outputFormat == 'Csv') SelectContainerContent('divResultTable');
         if (outputFormat == 'LaTex') SelectContainerContent('divResultTable');
-        if (outputFormat == 'LaTexSmall') SelectContainerContent('divResultTable');
         if (outputFormat == 'Wiki') SelectContainerContent('divResultTable');
 
         var displayString = 'Outputs updated: ' + GetCurrentDateTimeString();
@@ -805,6 +807,39 @@
             </tr>
 
             <tr>
+              <!-- Omega_m -->
+              <td>Matter density parameter, &#937;<sub>M</sub></td>
+              <td>
+                <input name="OmegaM" size="8" value="" onfocus="this.select()" onblur="InputChanged()" />
+              </td>
+              <td>
+                <span
+                  class="hotspot"
+                  onmouseover="tooltip.show('The energy density of all the normal and dark matter, as a fraction of the present critical density.');"
+                  onmouseout="tooltip.hide();"
+                  ><img src="images/help.png"
+                /></span>
+              </td>
+
+              <td>
+                <div class="divFeedback" id="divOmegaLFeedback">>0 to 1.00</div>
+              </td>
+
+              <td>Radiation density parameter, &#937;<sub>R</sub></td>
+              <td>
+                <div id="divOmegaR">[wait]</div>
+              </td>
+              <td>
+                <span
+                  class="hotspot"
+                  onmouseover="tooltip.show('Present energy density parameter of the radiation left over from the BB');"
+                  onmouseout="tooltip.hide();"
+                  ><img src="images/help.png"
+                /></span>
+              </td>
+            </tr>
+
+            <tr>
               <!-- z_eq -->
               <td>Radiation, matter equal, z<sub>eq</sub></td>
               <td>
@@ -822,18 +857,7 @@
                 <div class="divFeedback" id="divz_eqFeedback">100 to 999999</div>
               </td>
 
-              <td>Matter density parameter, &#937;<sub>m</sub></td>
-              <td>
-                <div id="divOmegaM">[wait]</div>
-              </td>
-              <td>
-                <span
-                  class="hotspot"
-                  onmouseover="tooltip.show('Matter and radiation densities are calculated from &#937;, Lambda and z<sub>eq</sub. Hence, it does not need a separate input.');"
-                  onmouseout="tooltip.hide();"
-                  ><img src="images/help.png"
-                /></span>
-              </td>
+              
             </tr>
 
             <tr>
@@ -999,25 +1023,22 @@
       <td>
         <span
           class="hotspot"
-          onmouseover="tooltip.show('Standard is the normal view; Office formats and selects a table for copy and paste to office applications; Tex formats for editors that use [tex] tags; Wiki formats for editors that use [[html]] tags, e.g. Wikidot; You can remove the beginning and end [[html]] tags for normal html use. For Chart, see the toopltip on the right.');"
+          onmouseover="tooltip.show('Standard is the normal view; Office formats and selects a table for copy and paste to office applications; Tex formats for editors that use [tex] tags; Wiki formats for editors that use [[html]] tags, e.g. Wikidot; You can remove the beginning and end [[html]] tags for normal html use. For Chart and CSV see the toopltip on the right.');"
           onmouseout="tooltip.hide();"
           ><img src="images/help.png"
         /></span>
       </td>
-      <input type="radio" name="TableMode" id="chkOutputStandard" checked="yes" /><label for="chkOutputStandard"
-        >Standard</label
-      >
-      <input type="radio" name="TableMode" id="chkOutputStandardInput" /><label for="chkOutputStandardInput"
-        >Office</label
-      >
-      <input type="radio" name="TableMode" id="chkOutputLaTex" /><label for="chkOutputLaTex">Tex small</label>
-      <input type="radio" name="TableMode" id="chkOutputLaTexSmall" /><label for="chkOutputLaTexSmall">Tex tiny</label>
+      <input type="radio" name="TableMode" id="chkOutputStandard" checked="yes" /><label for="chkOutputStandard">Standard</label>
+      <input type="radio" name="TableMode" id="chkOutputStandardInput" /><label for="chkOutputStandardInput">Office</label>
+      <input type="radio" name="TableMode" id="chkOutputLaTex" /><label for="chkOutputLaTex">Latex</label>
       <input type="radio" name="TableMode" id="chkOutputWiki" /><label for="chkOutputWiki">Wiki</label>
       <input type="radio" name="TableMode" id="chkOutputChart" /><label for="chkOutputChart">Chart</label>
+      <input type="radio" name="TableMode" id="chkOutputCsv" /><label for="chkOutputCsv">CSV</label>
+
       <td>
         <span
           class="hotspot"
-          onmouseover="tooltip.show('Draws a chart for all the values selected in Column Definition, with the horizontal axis  indicated by the radio button selected. The actual density (rho) is considered too small to be charted. Also see Chart Options below.');"
+          onmouseover="tooltip.show('Chart draws graphs for all the values selected in Column Definition, with the horizontal axis indicated by the radio button selected. The actual density (rho) is considered too small to be charted. Also see Chart Options below. CSV outputs a header plus comma separateed full precision values, rows ending with a semi-colon and a space.');"
           onmouseout="tooltip.hide();"
           ><img src="images/help.png"
         /></span>
@@ -1197,7 +1218,7 @@
           <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL</a>
           license |
           <a href="https://github.com/light-cone-calc/light-cone-calc.github.io">LightCone</a>
-          v8.2.0 |
+          v8.2.1 |
           <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
           <script>
             document.write('v' + CosmicExpansion.version);
