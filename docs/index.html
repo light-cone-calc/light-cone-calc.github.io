@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>LightCone8 - 2022-07-30</title>
+    <title>LightCone8</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -431,17 +431,18 @@
         var Yinf = input.Yinf;
         var s_eq = input.z_eq + 1;
         var Omega = input.Omega;
+        var OmegaM = input.OmegaM;
         var s_upper = input.z_upper + 1;
         var s_lower = input.z_lower + 1;
         var steps = input.steps;
 
         // the extra output, conversion values..............
 
-        var OmegaR = Omega/s_eq;
+        var OmegaR = OmegaM/s_eq;
         var s_steps = steps;
         document.getElementById('divYnow').innerHTML = Ynow.toFixed(3);
         document.getElementById('divYinf').innerHTML = Yinf.toFixed(3);
-        document.getElementById('divOmegaR').innerHTML = OmegaR.toFixed(6);
+        document.getElementById('divOmegaR').innerHTML = OmegaR.toFixed(7);
 
         // tage
         var tage = CalculateTage(input);
@@ -639,10 +640,13 @@
         var input = CalcInput();
 
         input.Omega = parseFloat(window.document.frmCalc.Omega.value);
+        input.OmegaM = parseFloat(window.document.frmCalc.OmegaM.value);
+
         // ***********************************************************
 
         var H_0 = parseFloat(window.document.frmCalc.H_0.value);
         var OmegaL = parseFloat(window.document.frmCalc.OmegaL.value);
+        var z_eq = parseFloat(window.document.frmCalc.z_eq.value);
         var z_upper = parseFloat(window.document.frmCalc.z_upper.value);
         var z_lower = parseFloat(window.document.frmCalc.z_lower.value);
         var steps = parseFloat(window.document.frmCalc.steps.value);
@@ -650,6 +654,7 @@
         input.z_eq = parseFloat(window.document.frmCalc.z_eq.value);
         input.Ynow = 978 / H_0;
         input.Yinf = input.Ynow / Math.sqrt(OmegaL);
+        input.OmegaR = input.OmegaM /(z_eq + 1);
         input.s_upper = z_upper + 1;
         input.s_lower = z_lower + 1;
         input.s_step = steps;
