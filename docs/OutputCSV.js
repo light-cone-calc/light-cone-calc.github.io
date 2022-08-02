@@ -357,7 +357,7 @@ function BuildCsvResultTable(resultList,columnFormatData,textSize,scaleFormat)
   // finalize tail of output
       outputString = outputString.slice(0, -2); // <-- remove the trailing ; and space
       
-//      outputString += "::"; // some EOF required?
+//      outputString += "::"; // some EOF required? Or not?
 
   return outputString;    
 }
