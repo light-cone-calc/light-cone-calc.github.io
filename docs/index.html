@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>LightCone8.1.2 - Jorrie Trial UI</title>
+    <title>LightCone8 (5 cosmological parameter input)</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -33,9 +33,8 @@
       function StartUp() {
         SetTitles();
         CreateColumnSetupBlocks();
-
-        SetDefaultPLANCK_2018_base();
-
+        <!--SetDefaultPLANCK_2018_base();-->
+        SetDefaultPLANCK_2018_BAO()
         InputChanged();
 
         CalculateProcess();
@@ -121,7 +120,7 @@
 
       function SetDefaultPLANCK_2018_base() {
         window.document.frmCalc.H_0.value = 67.36;
-        window.document.frmCalc.OmegaL.value = 0.6847;
+        window.document.frmCalc.OmegaL.value = 0.6846;
         window.document.frmCalc.OmegaM.value = 0.3153;
         window.document.frmCalc.z_eq.value = 3402;
         window.document.frmCalc.Omega.value = 1.0;
@@ -130,7 +129,7 @@
 
       function SetDefaultPLANCK_2018_BAO() {
         window.document.frmCalc.H_0.value = 67.66;
-        window.document.frmCalc.OmegaL.value = 0.6889;
+        window.document.frmCalc.OmegaL.value = 0.6888;
         window.document.frmCalc.OmegaM.value = 0.3111;
         window.document.frmCalc.z_eq.value = 3387;
         window.document.frmCalc.Omega.value = 1.0;
@@ -791,7 +790,7 @@
               <td>
                 <span
                   class="hotspot"
-                  onmouseover="tooltip.show('The energy density represented by the comological constant, as a fraction of the present critical density.');"
+                  onmouseover="tooltip.show('The energy density represented by the comological constant, as a fraction of the present critical density. Note however that for statistical reasons this value has been reduced by one part in 6889, which is far within the quoted uncertainty. This is to accommodate radiation density in a spatially flat case.');"
                   onmouseout="tooltip.hide();"
                   ><img src="images/help.png"
                 /></span>
@@ -824,7 +823,7 @@
               <td>
                 <span
                   class="hotspot"
-                  onmouseover="tooltip.show('The energy density of all the normal and dark matter, as a fraction of the present critical density.');"
+                  onmouseover="tooltip.show('The energy density of normal and dark matter, as a fraction of the present critical density.');"
                   onmouseout="tooltip.hide();"
                   ><img src="images/help.png"
                 /></span>
@@ -1226,7 +1225,7 @@
           <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL</a>
           license |
           <a href="https://github.com/light-cone-calc/light-cone-calc.github.io">LightCone</a>
-          v8.2.1 |
+          v8.2.2 |
           <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
           <script>
             document.write('v' + CosmicExpansion.version);
