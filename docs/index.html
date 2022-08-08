@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>LightCone8 (4 cosmological parameter input)</title>
+    <title>LightCone8 (+CSV)</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -16,6 +16,7 @@
     <script src="Calculation.js"></script>
     <script src="OutputHTML.js"></script>
     <script src="OutputChart.js"></script>
+    <script src="OutputCSV.js"></script>
     <script src="OutputTex.js"></script>
     <script src="comsocalc_tooltip.js"></script>
 
@@ -33,7 +34,7 @@
         SetTitles();
         CreateColumnSetupBlocks();
 
-		SetDefaultPLANCK_2018_base();
+        SetDefaultPLANCK_2018_BAO();
 
         InputChanged();
 
@@ -519,6 +520,7 @@
 
         if (document.getElementById('chkOutputStandardInput').checked) outputFormat = 'Office';
         if (document.getElementById('chkOutputWiki').checked) outputFormat = 'Wiki';
+        if (document.getElementById('chkOutputCsv').checked) outputFormat = 'Csv';
         if (document.getElementById('chkOutputLaTex').checked) outputFormat = 'LaTex';
         if (document.getElementById('chkOutputLaTexSmall').checked) outputFormat = 'LaTexSmall';
         if (document.getElementById('chkOutputChart').checked) outputFormat = 'Chart';
@@ -531,6 +533,10 @@
             break;
           case 'Office':
             outputString = BuildHtmlResultTable(resultList, columnDisplaySettingsList, insertHeadings, OutputScaling);
+            break;
+          case 'Csv':
+            var textSize = 'small';
+            outputString += BuildCsvResultTable(resultList, columnDisplaySettingsList, textSize, OutputScaling);
             break;
           case 'LaTex':
             var textSize = 'small';
@@ -607,6 +613,7 @@
 
         ClearSelection();
         if (outputFormat == 'Office') SelectContainerContent('divResultTable');
+        if (outputFormat == 'Csv') SelectContainerContent('divResultTable');
         if (outputFormat == 'LaTex') SelectContainerContent('divResultTable');
         if (outputFormat == 'LaTexSmall') SelectContainerContent('divResultTable');
         if (outputFormat == 'Wiki') SelectContainerContent('divResultTable');
@@ -990,7 +997,7 @@
       <td>
         <span
           class="hotspot"
-          onmouseover="tooltip.show('Standard is the normal view; Office formats and selects a table for copy and paste to office applications; Tex formats for editors that use [tex] tags; Wiki formats for editors that use [[html]] tags, e.g. Wikidot; You can remove the beginning and end [[html]] tags for normal html use. For Chart, see the toopltip on the right.');"
+          onmouseover="tooltip.show('Standard is the normal view; Office formats and selects a table for copy and paste to office applications; Tex formats for editors that use [tex] tags; Wiki formats for editors that use [[html]] tags, e.g. Wikidot; You can remove the beginning and end [[html]] tags for normal html use. For Chart and CSV see the toopltip on the right.');"
           onmouseout="tooltip.hide();"
           ><img src="images/help.png"
         /></span>
@@ -1005,10 +1012,12 @@
       <input type="radio" name="TableMode" id="chkOutputLaTexSmall" /><label for="chkOutputLaTexSmall">Tex tiny</label>
       <input type="radio" name="TableMode" id="chkOutputWiki" /><label for="chkOutputWiki">Wiki</label>
       <input type="radio" name="TableMode" id="chkOutputChart" /><label for="chkOutputChart">Chart</label>
+      <input type="radio" name="TableMode" id="chkOutputCsv" /><label for="chkOutputCsv">CSV</label>
+
       <td>
         <span
           class="hotspot"
-          onmouseover="tooltip.show('Draws a chart for all the values selected in Column Definition, with the horizontal axis  indicated by the radio button selected. The actual density (rho) is considered too small to be charted. Also see Chart Options below.');"
+          onmouseover="tooltip.show('Chart draws graphs for all the values selected in Column Definition, with the horizontal axis indicated by the radio button selected. The actual density (rho) is considered too small to be charted. Also see Chart Options below. CSV outputs a header plus comma separateed full precision values, rows ending with a semi-colon and a space.');"
           onmouseout="tooltip.hide();"
           ><img src="images/help.png"
         /></span>
@@ -1189,7 +1198,7 @@
           <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL</a>
           license |
           <a href="https://github.com/light-cone-calc/light-cone-calc.github.io">LightCone</a>
-          v8.1.2 |
+          v8.1.3 |
           <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
           <script>
             document.write('v' + CosmicExpansion.version);
