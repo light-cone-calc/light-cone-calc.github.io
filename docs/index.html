@@ -5,7 +5,8 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>LightCone8 (+CSV)</title>
+
+    <title>LightCone8 Cosmological Calculator</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.0"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -434,10 +435,12 @@
         // the extra output, conversion values..............
 
         var OmegaM = ((Omega - (Ynow * Ynow) / Yinf / Yinf) * s_eq) / (1 + s_eq);
+        var OmegaR = OmegaM/s_eq;
         var s_steps = steps;
         document.getElementById('divYnow').innerHTML = Ynow.toFixed(3);
         document.getElementById('divYinf').innerHTML = Yinf.toFixed(3);
         document.getElementById('divOmegaM').innerHTML = OmegaM.toFixed(4);
+        document.getElementById('divOmegaR').innerHTML = OmegaR.toFixed(7);
 
         // tage
         var tage = CalculateTage(input);
@@ -448,6 +451,7 @@
         document.getElementById('divYnow').innerHTML = '-';
         document.getElementById('divYinf').innerHTML = '-';
         document.getElementById('divOmegaM').innerHTML = '-';
+        document.getElementById('divOmegaR').innerHTML = '-';
         document.getElementById('divTage').innerHTML = '-';
       }
 
@@ -668,7 +672,7 @@
   <body onload="StartUp()">
     <!-- page heading -->
     <div id="divPageTitle">
-      <div id="divTitleText">[LightCone7 loading]</div>
+      <div id="divTitleText">[LightCone8 loading]</div>
       <div class="divButtonFloatRight">
         <input
           type="button"
@@ -785,7 +789,7 @@
               </td>
 
               <td>
-                <div class="divFeedback" id="divOmegaLFeedback">>0 to 1.00</div>
+                <div class="divFeedback" id="divOmegaLFeedback">>0.001 to 1.00</div>
               </td>
 
               <td>Future Hubble radius, R<sub>&infin;</sub> (Gly)</td>
@@ -854,19 +858,19 @@
                   to 1.5
                 </div>
               </td>
-              <td>Present Time (Gyr)</td>
+
+              <td>Radiation density parameter, &#937;<sub>R</sub></td>
               <td>
-                <div id="divTage"></div>
+                <div id="divOmegaR">[wait]</div>
               </td>
               <td>
                 <span
                   class="hotspot"
-                  onmouseover="tooltip.show('This is the age of the universe, i.e. the time since the start of the present expansion era (the Big Bang). It is thought to follow immediately after the Inflation era, which is not covered by this calculator.');"
+                  onmouseover="tooltip.show('Present energy density parameter of the radiation left over from the BB');"
                   onmouseout="tooltip.hide();"
                   ><img src="images/help.png"
                 /></span>
               </td>
-            </tr>
 
             <tr>
               <!-- z_upper -->
@@ -885,7 +889,24 @@
               <td>
                 <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 200000</div>
               </td>
+
+              <td>Present Time (Gyr)</td>
+              <td>
+                <div id="divTage"></div>
+              </td>
+              
+                            <td>
+                <span
+                  class="hotspot"
+                  onmouseover="tooltip.show('This is the age of the universe, i.e. the time since the start of the present expansion era (the Big Bang). It is thought to follow immediately after the Inflation era, which is not covered by this calculator.');"
+                  onmouseout="tooltip.hide();"
+                  ><img src="images/help.png"
+                /></span>
+              </td>
+
               <td></td>
+            </tr>
+
               <td></td>
               <td></td>
             </tr>
