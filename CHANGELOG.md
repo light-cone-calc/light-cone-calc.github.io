@@ -4,7 +4,6 @@
 
 ### Added
 
-- Additional options for Planck 2018 and Planck 2018 + BAO survey parameters.
 - CSV output option.
 
 ### Fixed
