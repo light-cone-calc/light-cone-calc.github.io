@@ -9,6 +9,7 @@ body
   position: relative;
   width: 750px;
   padding: 5px;
+  background: yellow;      
 }
 
 #divPageFooter
@@ -281,6 +282,20 @@ padding: 5px;
 
 /* output formatting */
 .divLatexOutputFrame 
+{
+  padding-left: 6px;
+  padding-top: 6px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+  border: 1px solid silver;
+  border-radius: 6px;
+  min-width: 750px;
+  width: 750px;      
+  margin-top: 7px;
+  margin-bottom: 10px;
+  background-color: lightyellow;
+}       
+.divCSVOutputFrame 
 {
   padding-left: 6px;
   padding-top: 6px;
