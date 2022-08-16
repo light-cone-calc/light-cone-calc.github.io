@@ -435,7 +435,7 @@
         // the extra output, conversion values..............
 
         var OmegaM = ((Omega - (Ynow * Ynow) / Yinf / Yinf) * s_eq) / (1 + s_eq);
-        var OmegaR = OmegaM/s_eq;
+        var OmegaR = OmegaM / s_eq;
         var s_steps = steps;
         document.getElementById('divYnow').innerHTML = Ynow.toFixed(3);
         document.getElementById('divYinf').innerHTML = Yinf.toFixed(3);
@@ -717,8 +717,18 @@
         <div class="divButtonFloatRight">
           <input type="button" id="cmdDefaultWMAP" value="WMAP (2013)" onClick="SetDefaultWMAP()" />
           <input type="button" id="cmdDefaultPLANCK" value="PLANCK(2015)" onClick="SetDefaultPLANCK()" />
-          <input type="button" id="cmdDefaultPLANCK_2018_base" value="PLANCK(2018-base)" onClick="SetDefaultPLANCK_2018_base()" />
-          <input type="button" id="cmdDefaultPLANCK_2018_BAO" value="PLANCK(2018+BAO)" onClick="SetDefaultPLANCK_2018_BAO()" />
+          <input
+            type="button"
+            id="cmdDefaultPLANCK_2018_base"
+            value="PLANCK(2018-base)"
+            onClick="SetDefaultPLANCK_2018_base()"
+          />
+          <input
+            type="button"
+            id="cmdDefaultPLANCK_2018_BAO"
+            value="PLANCK(2018+BAO)"
+            onClick="SetDefaultPLANCK_2018_BAO()"
+          />
         </div>
       </div>
 
@@ -870,6 +880,7 @@
                   ><img src="images/help.png"
                 /></span>
               </td>
+            </tr>
 
             <tr>
               <!-- z_upper -->
@@ -893,8 +904,8 @@
               <td>
                 <div id="divTage"></div>
               </td>
-              
-                            <td>
+
+              <td>
                 <span
                   class="hotspot"
                   onmouseover="tooltip.show('This is the age of the universe, i.e. the time since the start of the present expansion era (the Big Bang). It is thought to follow immediately after the Inflation era, which is not covered by this calculator.');"
@@ -902,12 +913,6 @@
                   ><img src="images/help.png"
                 /></span>
               </td>
-
-              <td></td>
-            </tr>
-
-              <td></td>
-              <td></td>
             </tr>
 
             <tr>
@@ -927,10 +932,12 @@
               <td>
                 <div class="divFeedback" id="divz_lowerFeedback">-0.99 to < z<sub>upper</sub></div>
               </td>
+
               <td></td>
               <td></td>
               <td></td>
             </tr>
+
             <tr>
               <td>Number of steps displayed</td>
               <td>
@@ -947,6 +954,7 @@
               <td>
                 <div class="divFeedback" id="divstepsFeedback">-100 to 100</div>
               </td>
+
               <td>
                 <label for="chkExponential">Click box for linear steps</label>
               </td>
@@ -959,7 +967,6 @@
                   ><img src="images/help.png"
                 /></span>
               </td>
-              <td></td>
             </tr>
           </tbody>
         </table>
@@ -1192,7 +1199,7 @@
     <!-- the result output table -->
     <div id="divResultTable"></div>
 
-    <footer id="divPageFooter">
+    <div id="divPageFooter">
       <p>
         For a Tutorial and the Math used, see
         <a href="https://www.physicsforums.com/insights/lightcone7combo-tutorial-part/" target="_blank"
@@ -1203,8 +1210,7 @@
           >the same Tutorial, part III.</a
         >
         Credits to
-        <a href="http://www.physicsforums.com/showthread.php?t=634757">@Mordred,  
-        @Marcus and @George Jones</a>
+        <a href="http://www.physicsforums.com/showthread.php?t=634757">@Mordred, @Marcus and @George Jones</a>
         for invaluable inputs and to Coburt and @pbuk for major reprogramming excercises.
       </p>
       <p>
