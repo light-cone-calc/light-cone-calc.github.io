@@ -1,5 +1,16 @@
 # Changelog
 
+## 8.3.0 _2022-08-16_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.3.0))
+
+### Added
+
+- Additional options for Planck 2018 and Planck 2018 + BAO survey parameters.
+- CSV output option.
+
+### Fixed
+
+- Calculation of event horizon (D_hor).
+
 ## 8.2.0 _2022-07-27_ ([GitHub](https://github.com/light-cone-calc/light-cone-calc.github.io/releases/v8.2.0))
 
 ### Added
