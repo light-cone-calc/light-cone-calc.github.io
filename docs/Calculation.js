@@ -44,7 +44,7 @@ const convertLegacyOutputs = (data, model) =>
       Y: entry.r,
       Dnow: entry.dNow,
       Dthen: entry.d,
-      Dhor: entry.r,
+      Dhor: entry.dHor,
       XDpar: entry.vGen,
       Dpar: entry.dPar,
       H_t: entry.h * model.props.kmsmpscToGyr,
