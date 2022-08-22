@@ -6,7 +6,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <title>LightCone8 Cosmological Calculator</title>
+    <title>LightCone8 Cosmological Calculator (v8.3.x)</title>
     <script src="https://cdn.jsdelivr.net/npm/cosmic-expansion@1.1.1"></script>
 
     <script src="chart_rgbcolor.js"></script>
@@ -39,7 +39,7 @@
 
         InputChanged();
 
-        CalculateProcess();
+        CalculateWrapper();
       }
 
       function SetTitles() {
@@ -391,7 +391,7 @@
         }
 
         // z_upperCheck
-        if (z_upper < -0.99 || z_upper > 200000 || isNaN(z_upper)) {
+        if (z_upper <= -1|| z_upper > 1000000 || isNaN(z_upper)) {
           document.getElementById('divz_upperFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
@@ -399,7 +399,7 @@
         }
 
         // z_lowerCheck
-        if (z_lower < -0.99 || z_lower >= z_upper || isNaN(z_lower)) {
+        if (z_lower <= -1 || z_lower >= z_upper || isNaN(z_lower)) {
           document.getElementById('divz_lowerFeedback').style.color = errorColor;
           isBadInput = 1;
         } else {
@@ -455,7 +455,16 @@
         document.getElementById('divTage').innerHTML = '-';
       }
 
+	  function CalculateWrapper()
+	  {
+		 document.getElementById('divCalculationInfoBar').innerHTML = 'Integration in process...';		 
+		 sleep(1).then(() => { CalculateProcess(); });
+	  }
+	  
+	  function sleep(time) { return new Promise((resolve) => setTimeout(resolve, time));}
+
       function CalculateProcess() {
+
         if (document.getElementById('chkOutputChart').checked) window.document.frmCalc.steps.value = 100;
 
         var columnDisplaySettingsList = GetColumnDisplaySettings();
@@ -473,6 +482,10 @@
             'Invalid input, cannot calculate. (Refer to red value in range column.)';
           return;
         }
+
+		
+        //setTimeout(function(){document.getElementById('divCalculationInfoBar').innerHTML = 'Calculation Busy';},1);
+
 
         HideColumnSetupOnCalculate();
 
@@ -513,7 +526,7 @@
         var input = GetInput();
 
         var resultList = Calculate();
-
+        
         //  CalculateExtraColumns(resultList,input);
 
         ScaleResults(resultList, input, OutputScaling);
@@ -711,7 +724,7 @@
       <!-- top button bar -->
       <div class="divButtonFrame">
         <div class="divCalcBox">
-          <input type="button" value="Calculate" onClick="CalculateProcess()" />
+          <input type="button" value="Calculate" onClick="CalculateWrapper()" />
         </div>
         <input type="button" id="cmdResetInput" value="Reset Input" onClick="ResetInput()" />
         <div class="divButtonFloatRight">
@@ -897,9 +910,31 @@
                 /></span>
               </td>
               <td>
-                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 200000</div>
-              </td>
+                <div class="divFeedback" id="divz_upperFeedback">> z<sub>lower</sub> to 1000000</div>
+               </td>
+			   <td>   
+                (recommended <= 300000 to avoid excessive delays)
+               </td>
 
+
+
+            <tr>
+              <!-- z_lower -->
+              <td>Lower row redshift, z<sub>lower</sub></td>
+              <td>
+                <input name="z_lower" size="8" value=" -0.9999" onfocus="this.select()" onblur="InputChanged()" />
+              </td>
+              <td>
+                <span
+                  class="hotspot"
+                  onmouseover="tooltip.show('The minimum redshift for this run, where z=0 represents today. z=1 represents the stage when cosmic scale was half of its present value. A negative z indicates the future.');"
+                  onmouseout="tooltip.hide();"
+                  ><img src="images/help.png"
+                /></span>
+              </td>
+              <td>
+                <div class="divFeedback" id="divz_lowerFeedback">> -1 to < z<sub>upper</sub></div>
+              </td>
               <td>Present Time (Gyr)</td>
               <td>
                 <div id="divTage"></div>
@@ -914,24 +949,6 @@
                 /></span>
               </td>
             </tr>
-
-            <tr>
-              <!-- z_lower -->
-              <td>Lower row redshift, z<sub>lower</sub></td>
-              <td>
-                <input name="z_lower" size="8" value="-0.99" onfocus="this.select()" onblur="InputChanged()" />
-              </td>
-              <td>
-                <span
-                  class="hotspot"
-                  onmouseover="tooltip.show('The minimum redshift for this run, where z=0 represents today. z=1 represents the stage when cosmic scale was half of its present value. A negative z indicates the future.');"
-                  onmouseout="tooltip.hide();"
-                  ><img src="images/help.png"
-                /></span>
-              </td>
-              <td>
-                <div class="divFeedback" id="divz_lowerFeedback">-0.99 to < z<sub>upper</sub></div>
-              </td>
 
               <td></td>
               <td></td>
@@ -1054,7 +1071,7 @@
     <!-- middle button row -->
     <div class="divButtonFrame">
       <div class="divCalcBox">
-        <input type="button" id="cmdCalculate" value="Calculate" onClick="CalculateProcess()" />
+        <input type="button" id="cmdCalculate" value="Calculate" onClick="CalculateWrapper()" />
       </div>
 
       <div class="divButtonFloatRight">
@@ -1193,7 +1210,7 @@
     </div>
 
     <div id="divCalculationInfoBar">
-      Waiting for Google charts to load. Ensure that you are connected to the Internet.
+      Waiting for third party software to load. Ensure that you are connected to the Internet.
     </div>
 
     <!-- the result output table -->
@@ -1224,7 +1241,7 @@
           <a href="https://spdx.org/licenses/AGPL-3.0-or-later.html">AGPL</a>
           license |
           <a href="https://github.com/light-cone-calc/light-cone-calc.github.io">LightCone</a>
-          v8.3.0 |
+          v8.3.x |
           <a href="https://www.npmjs.com/package/cosmic-expansion">CosmicExpansion</a>
           <script>
             document.write('v' + CosmicExpansion.version);
@@ -1234,3 +1251,11 @@
     </div>
   </body>
 </html>
+      
+<!.....        
+        document.getElementById('divCalculationInfoBar').innerHTML ="Calculating...";
+
+        var displayString = 'Calculating... ' ;
+        document.getElementById('divCalculationInfoBar').innerHTML = displayString;
+       
+
