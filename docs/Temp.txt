@@ -1,0 +1,33 @@
+In order to make it as simple and non-controversial as possible, I propose a setup where inhomogeneity and change of  reference frames play as little role as possible, i.e. in free space and with its center of mass comoving. I'll call that point the origin and set up my lab there. Rockets deliver two identical masses a distance D/2 in opposite directions, attach a cable from each to the lab and allow the situation to stabilize as something like this, with the cables taking some cosmological stress due to accelerating expansion.
+
+
+
+
+We can measure the cosmological 'tidal' force (CTF) on the cable in the lab by inserting a strain gauge. But before that we should calculate the OOM, so that we can insert a properly scaled strain gauge. Using standard cosmological equations, I get the CTF:
+
+
+$$CTF  = D H_0^2 \left(\Omega_{\Lambda} - \Omega_M/(2a^3)\right)$$  
+
+
+At present, with a=1 and the Omegas 0.7 and 0.3, with Ho roughly 0.072/Gyr[SUP]2[/SUP], it works out to:[SUP][1][/SUP]
+
+
+CTF ~ 2.9x10[SUP]-11[/SUP] D  Newton/kg, with D in Glyr, or in easier terms:
+
+
+29 nano-Newton per kg mass per Glyr separation.
+
+
+Unless I have made some serious blunders in conversion, this is a small force, really small, unless we make the two masses very large...
+
+
+
+
+Note [1]  Since I often play around with Gyr, meaning acceleration is geometrically in the units Gyr[SUP]-1[/SUP], I find it very convenient that 
+
+1 Gyr[SUP]-1[/SUP] is very close to 1 nano-g (Precisely 0.970735785686955 ng).
+	
+
+
+
+
